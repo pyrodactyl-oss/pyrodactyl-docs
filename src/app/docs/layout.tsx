@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           type: 'custom',
           children: (
             <GithubInfo
-              owner="pyrohost"
+              owner="pyrodactyl-oss"
               repo="pyrodactyl"
               className="lg:-mx-2"
               token={process.env.GITHUB_TOKEN}

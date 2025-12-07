@@ -29,7 +29,7 @@ mariadb-dump -u root -p --opt panel > ./panel.sql
 ### Pyrodactyl Installation
 
 1. Create a new folder (e.g. `pyrodactyl-panel`) on your server in a safe location, and switch to it.
-1. Download and configure the [docker-compose.example.yml](https://raw.githubusercontent.com/pyrohost/pyrodactyl/main/docker-compose.example.yml)
+1. Download and configure the [docker-compose.example.yml](https://raw.githubusercontent.com/pyrodactyl-oss/pyrodactyl/main/docker-compose.example.yml)
 1. Modify placeholder variables under `x-common`
 1. If you are using built-in HTTPS, add port 443 (to the `ports` section under the `panel` container) and set the `LE_EMAIL` variable (in the `panel` section under `x-common`) to a registered Let's Encrypt email address.
 1. Copy the following environment variables from your Pterodactyl `.env` to your `docker-compose.yml`:

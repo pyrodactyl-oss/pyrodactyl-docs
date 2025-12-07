@@ -31,7 +31,7 @@ export default async function Page({ params }: PageParams) {
       }}
       lastUpdate={page.data.lastModified ? new Date(page.data.lastModified) : undefined}
       editOnGithub={{
-        owner: 'pyrohost',
+        owner: 'pyrodactyl-oss',
         repo: 'pyrodactyl-docs',
         sha: 'main',
         path: `content/docs/${page.file.path}`,
