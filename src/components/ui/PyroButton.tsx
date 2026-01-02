@@ -34,7 +34,7 @@ const button = cva(
 				primary: ["bg-brand", "text-white", "hover:bg-brand/80"],
 				secondary: ["bg-black dark:bg-white", "text-white dark:text-black", "hover:bg-black/80 dark:hover:bg-white/80"],
 				tertiary: ["bg-[#ffffff33]", "text-white", "hover:bg-[#ffffff55]"],
-				quaternary: ["bg-transparent", "text-white", "hover:bg-black/80", "border-[#ffffff33]", "hover:border-[#ffffff55]"],
+				quaternary: ["bg-[#1a1a1a]", "text-white", "hover:bg-[#252525]", "border-[#333]", "hover:border-[#444]"],
 			},
 			size: {
 				ghost: [],

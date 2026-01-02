@@ -3,3 +3,326 @@
 @import 'fumadocs-ui/css/preset.css';
 
 @source '../../node_modules/fumadocs-ui/dist/**/*.js';
+
+/* Custom theme colors */
+@theme {
+  --color-brand: #f94943;
+  --color-brand-light: #ff6b5a;
+  --color-brand-dark: #d93d38;
+}
+
+/* Force dark mode and override fumadocs theme */
+:root {
+  color-scheme: dark;
+  
+  /* Core colors */
+  --fd-background: #09090b;
+  --fd-foreground: #fafafa;
+  --fd-muted: #18181b;
+  --fd-muted-foreground: #a1a1aa;
+  --fd-popover: #18181b;
+  --fd-popover-foreground: #fafafa;
+  --fd-card: #18181b;
+  --fd-card-foreground: #fafafa;
+  --fd-border: rgba(255, 255, 255, 0.1);
+  --fd-primary: #f94943;
+  --fd-primary-foreground: #ffffff;
+  --fd-secondary: #27272a;
+  --fd-secondary-foreground: #fafafa;
+  --fd-accent: rgba(249, 73, 67, 0.1);
+  --fd-accent-foreground: #f94943;
+  --fd-ring: #f94943;
+  
+  /* Sidebar specific */
+  --fd-sidebar-background: #09090b;
+  --fd-sidebar-foreground: #a1a1aa;
+  --fd-sidebar-border: rgba(255, 255, 255, 0.08);
+  --fd-sidebar-accent: rgba(249, 73, 67, 0.1);
+  --fd-sidebar-accent-foreground: #f94943;
+  --fd-sidebar-primary: #f94943;
+  --fd-sidebar-primary-foreground: #ffffff;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection styling */
+::selection {
+  background-color: rgba(249, 73, 67, 0.3);
+  color: white;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Text balance for better typography */
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Override fumadocs link colors */
+.prose a {
+  color: #f94943;
+  text-decoration-color: #f94943;
+}
+
+.prose a:hover {
+  color: #ff6b5a;
+  text-decoration-color: #ff6b5a;
+}
+
+/* General link styling in docs */
+a[href]:not(.no-underline) {
+  text-decoration-color: rgba(249, 73, 67, 0.4);
+}
+
+a[href]:not(.no-underline):hover {
+  text-decoration-color: #f94943;
+}
+
+/* Sidebar styling */
+aside {
+  background-color: #09090b !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Sidebar links */
+aside a {
+  color: #a1a1aa !important;
+}
+
+aside a:hover {
+  color: #fafafa !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Sidebar active state */
+[data-active="true"],
+aside [data-active="true"],
+aside a[data-active="true"] {
+  color: #f94943 !important;
+  background-color: rgba(249, 73, 67, 0.1) !important;
+}
+
+/* Sidebar folder/category buttons */
+aside button {
+  color: #a1a1aa !important;
+}
+
+aside button:hover {
+  color: #fafafa !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* TOC active state */
+.fd-toc [data-active="true"] {
+  color: #f94943 !important;
+  border-color: #f94943 !important;
+}
+
+/* TOC links */
+.fd-toc a {
+  color: #71717a !important;
+}
+
+.fd-toc a:hover {
+  color: #fafafa !important;
+}
+
+/* Header/banner in docs */
+[role="banner"] {
+  background-color: #09090b !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Search button styling */
+button[aria-label="Search"],
+button[aria-label="Open Search"] {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #a1a1aa !important;
+}
+
+button[aria-label="Search"]:hover,
+button[aria-label="Open Search"]:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #fafafa !important;
+}
+
+/* Hide all theme toggle elements aggressively */
+button[aria-label="light"],
+button[aria-label="dark"],
+button[aria-label="system"],
+[data-theme-toggle],
+[class*="ThemeSwitcher"],
+[class*="theme-switch"],
+.fd-theme-switch {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+}
+
+/* Hide parent containers that only contain theme buttons */
+div:has(> button[aria-label="light"]):has(> button[aria-label="dark"]):has(> button[aria-label="system"]),
+*:has(> button[aria-label="light"]):has(> button[aria-label="dark"]):has(> button[aria-label="system"]) {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Search Dialog / Command Palette Styling */
+[data-search-dialog] [data-overlay],
+[role="dialog"][aria-label*="Search"] ~ div,
+.fd-search-overlay {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+[data-search-dialog] [data-content],
+[role="dialog"][aria-label*="Search"],
+.fd-search-dialog {
+  background-color: #0f0f11 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+  overflow: hidden !important;
+}
+
+/* Search input header */
+[data-search-dialog] [data-header],
+.fd-search-header {
+  background-color: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 16px !important;
+}
+
+/* Search input */
+[data-search-dialog] input,
+.fd-search-input {
+  background-color: transparent !important;
+  color: #fafafa !important;
+  font-size: 16px !important;
+}
+
+[data-search-dialog] input::placeholder,
+.fd-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Search icon */
+[data-search-dialog] [data-icon],
+.fd-search-icon {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Search results list */
+[data-search-dialog] [data-list],
+.fd-search-list {
+  padding: 8px !important;
+  max-height: 400px !important;
+}
+
+/* Search result items */
+[data-search-dialog] [data-item],
+.fd-search-item {
+  border-radius: 8px !important;
+  padding: 12px 16px !important;
+  margin: 2px 0 !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  transition: all 0.15s ease !important;
+}
+
+[data-search-dialog] [data-item]:hover,
+[data-search-dialog] [data-item][data-selected],
+.fd-search-item:hover,
+.fd-search-item[data-selected] {
+  background-color: rgba(249, 73, 67, 0.1) !important;
+  color: #fafafa !important;
+}
+
+[data-search-dialog] [data-item][data-selected],
+.fd-search-item[data-selected] {
+  border-left: 2px solid #f94943 !important;
+}
+
+/* Search result title */
+[data-search-dialog] [data-item] [data-title],
+.fd-search-item-title {
+  color: #fafafa !important;
+  font-weight: 500 !important;
+}
+
+/* Search result description/path */
+[data-search-dialog] [data-item] [data-description],
+.fd-search-item-description {
+  color: rgba(255, 255, 255, 0.4) !important;
+  font-size: 12px !important;
+}
+
+/* Close button */
+[data-search-dialog] [data-close],
+.fd-search-close {
+  color: rgba(255, 255, 255, 0.4) !important;
+  border-radius: 6px !important;
+  padding: 4px !important;
+}
+
+[data-search-dialog] [data-close]:hover,
+.fd-search-close:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #fafafa !important;
+}
+
+/* Empty state */
+[data-search-dialog] [data-empty],
+.fd-search-empty {
+  color: rgba(255, 255, 255, 0.4) !important;
+  padding: 32px !important;
+  text-align: center !important;
+}
+
+/* Footer/keyboard hints */
+[data-search-dialog] [data-footer],
+.fd-search-footer {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 12px 16px !important;
+  color: rgba(255, 255, 255, 0.3) !important;
+  font-size: 12px !important;
+}
+
+[data-search-dialog] kbd,
+.fd-search-footer kbd {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  font-size: 11px !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+}

@@ -9,6 +9,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     <DocsLayout
       {...baseOptions}
       tree={source.pageTree}
+      disableThemeSwitch
       links={[
         {
           type: 'custom',
