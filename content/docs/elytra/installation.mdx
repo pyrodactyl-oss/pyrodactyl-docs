@@ -350,3 +350,45 @@ Once you've got your stuff working. your free to go
   sudo systemctl enable --now elytra
 ```
 
+## Troubleshooting
+
+If Elytra refuses to start because it cannot create the `pyrodactyl` system user (you will see logs mentioning `failed to create pyrodactyl system user error=exit status 4`), you can manually provision the account. Confirm that the user is missing before running the command above (e.g., `sudo getent passwd pyrodactyl`).
+
+<Tabs items={"Fedora,Ubuntu,Debian,Rocky,RHEL,Arch".split(',')}>
+<Tab value="Fedora">
+```
+sudo getent passwd pyrodactyl || sudo useradd --system --create-home --shell /usr/sbin/nologin --comment "Elytra/Pterodactyl system user" pyrodactyl
+```
+Retry with `sudo` if you are prompted for permissions again; the service runs as root before dropping privileges.
+</Tab>
+<Tab value="Ubuntu">
+```
+sudo getent passwd pyrodactyl || sudo useradd --system --create-home --shell /usr/sbin/nologin --comment "Elytra/Pterodactyl system user" pyrodactyl
+```
+Ubuntu keeps `nologin` under `/usr/sbin`, matching what the service unit expects.
+</Tab>
+<Tab value="Debian">
+```
+sudo getent passwd pyrodactyl || sudo useradd --system --create-home --shell /usr/sbin/nologin --comment "Elytra/Pterodactyl system user" pyrodactyl
+```
+Use the same path as Ubuntu since Debian shares the same filesystem layout for administrative binaries.
+</Tab>
+<Tab value="Rocky">
+```
+sudo getent passwd pyrodactyl || sudo useradd --system --create-home --shell /usr/sbin/nologin --comment "Elytra/Pterodactyl system user" pyrodactyl
+```
+Red Hat derivatives keep `nologin` in `/usr/sbin`, so this mirrors the Fedora command exactly.
+</Tab>
+<Tab value="RHEL">
+```
+sudo getent passwd pyrodactyl || sudo useradd --system --create-home --shell /usr/sbin/nologin --comment "Elytra/Pterodactyl system user" pyrodactyl
+```
+If SELinux is enforcing, rerun `sudo restorecon /etc/passwd` after creating the user to ensure the context is correct.
+</Tab>
+<Tab value="Arch">
+```
+sudo getent passwd pyrodactyl || sudo useradd --system --create-home --shell /usr/bin/nologin --comment "Elytra/Pterodactyl system user" pyrodactyl
+```
+Arch places `nologin` in `/usr/bin`, so point the command there to keep `systemd` happy.
+</Tab>
+</Tabs>
