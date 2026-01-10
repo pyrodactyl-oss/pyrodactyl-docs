@@ -46,7 +46,12 @@ const features = [
   },
   {
     title: "Batteries included",
-    description: "It's everything you need, out-of-the-box. There's no need to install plugins or themes.",
+    description: (
+      <>
+        It&apos;s everything you need, out-of-the-box. There&apos;s no need to install plugins or themes. (But you still can with{" "}
+        <a href="/docs/blueprint" className="text-brand hover:text-brand/80 transition-colors underline">Blueprint</a>)
+      </>
+    ),
     icon: <CubeIcon className="w-5 h-5" />
   },
   {
