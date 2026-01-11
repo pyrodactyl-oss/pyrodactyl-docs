@@ -63,40 +63,13 @@ This comprehensive guide walks you through setting up Pyrodactyl using Docker, f
    - Configuration tab: Copy the contents to /etc/pterodactyl/config.yml on your backend server
    - Allocation tab: Add some allocations to use for your servers. The IP should be 0.0.0.0. If you want to show a different IP in the UI (e.g. a subdomain), add an alias. You can input a range of ports like 25565-26000
 
-## Wings Installation
+## Elytra Installation
 
-In addition to the Pyrodactyl panel, you'll need Pterodactyl Wings as a backend for your servers, which we will also use Docker for. You can have multiple Wings instances on different servers, but for now, we're setting up just one.
+<Callout type="info">
+As of release 5.0, Pyrodactyl is compatible with both [Pterodactyl Wings](https://pterodactyl.io/wings/1.0/installing.html) and [Pyro Inc.&copy; Elytra](/docs/elytra).
+You can find info to install at [Elytra Docs](/docs/elytra/installation)
+</Callout>
 
-1. Run the commands below to setup the compose for Wings:
-
-   ```bash
-   mkdir pyrodactyl-wings && cd pyrodactyl-wings
-   wget https://github.com/pterodactyl/wings/raw/develop/docker-compose.example.yml -O docker-compose.yml
-   ```
-
-1. Run the following command to start Wings:
-
-   ```bash
-   docker compose up -d
-   ```
-
-1. Verify Wings status:
-
-   ```bash
-   docker ps | grep wings
-   ```
-
-1. If applicable, allow wings in your firewall:
-   - If using `ufw`:
-     ```bash
-     ufw allow 2022
-     ufw allow 8080
-     ```
-   - If using `iptables`:
-     ```bash
-     iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
-     iptables -A INPUT -p tcp --dport 2022 -j ACCEPT
-     ```
 
 ## Post-Installation Steps
 
