@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { PyroButton } from "@/components/ui/PyroButton";
 import SafariBrowser from "@/components/ui/SafariBrowser";
 import GitHubStats from "@/components/ui/GitHubStats";
-import { 
-  BookOpenIcon, 
-  FireIcon, 
-  UserGroupIcon, 
-  RocketLaunchIcon, 
-  ShieldCheckIcon, 
-  CubeIcon, 
+import {
+  BookOpenIcon,
+  FireIcon,
+  UserGroupIcon,
+  RocketLaunchIcon,
+  ShieldCheckIcon,
+  CubeIcon,
   CodeBracketIcon,
 } from "@heroicons/react/24/solid";
 
@@ -84,23 +84,23 @@ const Page = () => {
     <>
       {/* hero */}
       <section className="relative min-h-[100vh] w-full bg-[#09090b]">
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           }}
         />
-        
+
         <div className="relative container mx-auto px-6 pt-40 pb-20">
           <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-20">
             <h1 className="font-extrabold text-[clamp(2.5rem,8vw,5rem)] leading-[1.05] tracking-[-0.04em] text-white mb-6 font-[family-name:var(--font-display)]">
               Open, Secure, and <span className="text-brand">Powerful</span>
             </h1>
-            
+
             <p className="text-lg md:text-xl text-white/60 max-w-2xl mb-10 leading-relaxed">
               Pyrodactyl is the world's best Pterodactyl panel. Unmatched performance and features.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-start">
               <PyroButton variant="primary" size="large" href="/docs/pyrodactyl" isArrow>
                 <BookOpenIcon className="w-5 h-5" /> Get Started
@@ -113,7 +113,7 @@ const Page = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="max-w-6xl mx-auto">
             <SafariBrowser
               src="/panelscreenshots/pyrodactyl-server.png"
@@ -128,8 +128,8 @@ const Page = () => {
 
       {/* stats */}
       <section className="relative z-10 w-full bg-[#09090b] border-t border-white/5 mt-[-250px]">
-        <div 
-          className="absolute -top-24 left-0 right-0 h-24 pointer-events-none" 
+        <div
+          className="absolute -top-24 left-0 right-0 h-24 pointer-events-none"
           style={{
             background: 'linear-gradient(to top, #09090b 0%, rgba(9,9,11,0.95) 40%, rgba(9,9,11,0.7) 70%, rgba(9,9,11,0) 100%)'
           }}
@@ -138,25 +138,25 @@ const Page = () => {
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div>
               <p className="text-sm font-medium text-white/40 mb-6">Performance metrics</p>
-              
+
               <h2 className="font-extrabold text-[clamp(3rem,7vw,6rem)] leading-[0.95] tracking-[-0.04em] mb-8 font-[family-name:var(--font-display)]">
                 <span className="block text-white">170×</span>
                 <span className="block text-[0.6em] text-white/40">smaller footprint</span>
               </h2>
-              
+
               <h2 className="font-extrabold text-[clamp(3rem,7vw,6rem)] leading-[0.95] tracking-[-0.04em] mb-8 font-[family-name:var(--font-display)]">
                 <span className="block text-brand">17×</span>
                 <span className="block text-[0.6em] text-white/40">faster builds</span>
               </h2>
-              
+
               <p className="text-white/50 text-lg max-w-md leading-relaxed">
                 We rebuilt Pterodactyl from the ground up. The result? Unprecedented performance that no other panel can match.
               </p>
             </div>
-            
+
             <div className="space-y-6">
               <h3 className="text-sm font-medium text-white/40 mb-8">Build time comparison</h3>
-              
+
               {buildTimes.map((item) => (
                 <div key={item.name}>
                   <div className="flex justify-between items-baseline mb-2">
@@ -170,18 +170,18 @@ const Page = () => {
                       {item.time}
                     </span>
                   </div>
-                  
+
                   <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                    <div 
+                    <div
                       className={`h-full rounded-full ${item.highlight ? 'bg-brand' : 'bg-white/20'}`}
                       style={{ width: `${item.percentage}%`, minWidth: item.highlight ? '4px' : undefined }}
                     />
                   </div>
                 </div>
               ))}
-              
+
               <p className="text-xs text-white/30 pt-4 leading-relaxed">
-                Benchmarked on MacBook Pro M3 Max, 48GB RAM. Caching enabled for all builds. 
+                Benchmarked on MacBook Pro M3 Max, 48GB RAM. Caching enabled for all builds.
                 Results may vary based on configuration. Note: These benchmarks were done in 2024 and may not represent current build times.
               </p>
             </div>
@@ -200,7 +200,7 @@ const Page = () => {
               Every aspect of Pyrodactyl has been carefully designed to deliver the best possible experience for server administrators.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature) => (
               <div key={feature.title} className="p-6 rounded-2xl border border-white/5 hover:border-white/10 transition-colors">
@@ -229,18 +229,18 @@ const Page = () => {
                 <span className="inline-block bg-green-500/10 rounded px-3 py-1.5 text-green-300/80">ghcr.io/pyrodactyl-oss/pyrodactyl:latest</span>
               </div>
             </div>
-            
+
             <div>
               <p className="text-sm font-medium text-white/40 mb-6">Migration made simple</p>
-              
+
               <h2 className="font-extrabold text-[clamp(2rem,5vw,3.5rem)] leading-[1.1] tracking-[-0.03em] text-white mb-6 font-[family-name:var(--font-display)]">
                 Switch in <span className="text-brand">one line</span>
               </h2>
-              
+
               <p className="text-white/50 text-lg mb-8 leading-relaxed">
                 Already running Pterodactyl with Docker? Just change the image in your compose file and run <code className="text-brand">docker compose up -d</code>.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4">
                 <PyroButton variant="primary" href="/docs/pyrodactyl/migrations" isArrow>Migration Guide</PyroButton>
                 <PyroButton variant="quaternary" href="/docs/pyrodactyl/installation">Fresh Install</PyroButton>
@@ -256,30 +256,30 @@ const Page = () => {
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div>
               <p className="text-sm font-medium text-white/40 mb-6">Transparent development</p>
-              
+
               <h2 className="font-extrabold text-[clamp(2rem,5vw,3.5rem)] leading-[1.1] tracking-[-0.03em] text-white mb-6 font-[family-name:var(--font-display)]">
                 Fully <span className="text-brand">open source</span>
               </h2>
-              
+
               <p className="text-white/50 text-lg mb-8 leading-relaxed">
-                Unlike other panels, Pyrodactyl&apos;s entire codebase is publicly available. 
+                Unlike other panels, Pyrodactyl&apos;s entire codebase is publicly available.
                 Audit the code, contribute improvements, or fork it for your own needs.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4">
                 <PyroButton variant="quaternary" href="https://github.com/pyrodactyl-oss/pyrodactyl" external>
                   <GitHubIcon /> View on GitHub
                 </PyroButton>
                 <PyroButton variant="quaternary" href="https://github.com/pyrodactyl-oss/pyrodactyl/blob/main/LICENSE.md" external>
-                  <CodeBracketIcon className="w-5 h-5" /> AGPL-3.0 License
+                  <CodeBracketIcon className="w-5 h-5" /> Apache2.0 License
                 </PyroButton>
               </div>
             </div>
-            
+
             <div className="hidden lg:block">
               <pre className="text-sm font-mono text-[13px] leading-relaxed text-white/40">
                 <code>
-<span className="text-white/30">&lt;?php</span>{`
+                  <span className="text-white/30">&lt;?php</span>{`
 
 `}<span className="text-purple-400/70">namespace</span>{` Pterodactyl\\Listeners\\Auth;
 
