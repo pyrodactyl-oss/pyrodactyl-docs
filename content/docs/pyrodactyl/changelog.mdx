@@ -4,11 +4,41 @@ description: Pyrodactyl Changelog
 ---
 
 
-# Changelog
 This file is a running track of new features and fixes to each version of the panel released starting with `v4.0.0`.
 
 This project follows [Semantic Versioning](http://semver.org) guidelines.
+## V5.0.0 - 01/25/26
+Thank you for using Pyrodactyl! This release brings us closer to full stability, combining Pterodactyl's Stability and Support with Pyrodactyl's modern more attractive Interface.
 
+<Callout type="warn">
+  WARNING: Breaking Changes
+  - All `/api/client/servers` endpoints changed.  
+    Update integrations to `/api/client/servers/elytra` (or `/wings`, depending on backend).
+</Callout>
+
+### Highlight: Full Pterodactyl Wings Support  
+Backups are now per-node, allowing mixed local/S3 configurations across servers.
+
+
+### Added
+- Pterodactyl Wings support  
+- Hytale support via `hytale_oauth` feature  
+- Human-readable cron editor (@Tyrthurey)  
+- Java 25 added to default eggs  
+- Switched to official `pyrodactyl-oss` Docker images (from `pyrodactyl-oss/images` repo)
+
+### Changed
+- Email templates updated to match Pyrodactyl theme
+
+### Fixed
+- Multiple backups per server (#32)  
+- Sidebar components failing on "Unlimited" values (#45)  
+- File viewer issues (#29)  
+- Red active-page indicator not moving with page name (#16)  
+- Allocation deletion when no limit set (commit b695ef29)  
+- Non-themed popup on port allocation deletion (#42)
+
+**Full Changelog**: https://github.com/pyrodactyl-oss/pyrodactyl/compare/v4.5.2...v5.0.0
 
 ## v4.5.2 - 12/23/25
 
