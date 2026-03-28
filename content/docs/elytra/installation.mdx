@@ -142,14 +142,14 @@ The quickest way is to use the pre-built binaries.
 <Tab value="amd64">
 ```bash
   mkdir -p /tmp/rustic-install
-	curl -L https://github.com/rustic-rs/rustic/releases/download/v0.10.0/rustic-v0.10.0-x86_64-unknown-linux-musl.tar.gz | sudo tar -zx -C /usr/local/bin
+	curl -L https://github.com/rustic-rs/rustic/releases/download/v0.10.0/rustic-v0.10.0-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /tmp/rustic-install
   sudo mv /tmp/rustic-install/rustic /usr/local/bin/
 ```
 </Tab>
 <Tab value="arm64">
 ```bash
   mkdir -p /tmp/rustic-install
-	curl -L https://github.com/rustic-rs/rustic/releases/download/v0.10.0/rustic-v0.10.0-aarch64-unknown-linux-musl.tar.gz | sudo tar -zx -C /usr/local/bin
+	curl -L https://github.com/rustic-rs/rustic/releases/download/v0.10.0/rustic-v0.10.0-aarch64-unknown-linux-musl.tar.gz | tar -xz -C /tmp/rustic-install
   sudo mv /tmp/rustic-install/rustic /usr/local/bin/
 ```
 </Tab>
