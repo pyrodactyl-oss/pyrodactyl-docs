@@ -1,0 +1,177 @@
+---
+title: Mod Manager
+description: Browse, install, and update Minecraft mods directly from your server's web panel.
+---
+
+The mod manager lets you install and update mods for your modded Minecraft server
+without ever opening an SFTP client. Pyrodactyl identifies what's already
+installed, finds the right version for your server's loader and Minecraft
+version, and pulls new mods straight to the daemon — no upload-then-download
+round-trip through your browser.
+
+<Callout type="info">
+  The mod manager talks to [Modrinth](https://modrinth.com) for both browsing
+  and identifying installed mods. CurseForge is not supported in this release.
+</Callout>
+
+## Where to find it
+
+Open any server's panel page and click **Mods** in the left sidebar. The route
+is `/server/<id>/mods`. The page only appears on servers running a supported
+modded Minecraft egg (see below).
+
+## What's supported
+
+The mod manager activates on Minecraft servers using one of these loaders:
+
+- **Fabric**
+- **Forge**
+- **NeoForge**
+- **Quilt**
+
+If your server is using a vanilla, Paper, Spigot, Bukkit, or Purpur egg, the
+Mods tab won't show — those run plugins, not mods, and they're served from a
+different ecosystem that Modrinth indexes separately.
+
+### Server detection
+
+Pyrodactyl reads two things from your server to decide what the mod manager
+should show:
+
+1. **Loader** — read from the egg's feature list. Patterns like `mod/fabric`,
+   `mod/forge`, `mod/neoforge`, and `mod/quilt` all match. NeoForge is
+   recognised before Forge to avoid misclassifying a NeoForge egg as Forge.
+2. **Minecraft version** — read from your startup variables in this order:
+   `MINECRAFT_VERSION`, then `MC_VERSION`, then `VANILLA_VERSION`, then
+   `GAME_VERSION`. Whichever is set first wins, and your saved server value
+   beats the egg's default.
+
+<Callout type="warn">
+  Values of `latest` or `snapshot` are deliberately ignored. The mod manager
+  can't reliably pick mods for sentinel versions, so set an exact Minecraft
+  version (e.g. `1.20.1`) on your server's **Startup** page if you want the
+  Mods tab to be available.
+</Callout>
+
+## The two tabs
+
+### Installed
+
+Lists every `.jar` in your server's `mods/` directory. For each file Pyrodactyl:
+
+- Computes a SHA-1 hash in your browser.
+- Asks Modrinth which mod that hash belongs to.
+- For identified mods, finds the latest version compatible with your loader
+  and Minecraft version — if it's newer than what you have, a yellow **Update**
+  badge appears.
+
+Files Modrinth doesn't recognise are still shown. Pyrodactyl parses
+`fabric.mod.json`, `quilt.mod.json`, or `META-INF/mods.toml` inside the jar so
+you at least see a name and version. You can still remove them — you just
+can't get one-click updates for mods Modrinth hasn't indexed.
+
+Per-mod actions:
+
+- **Update** — only enabled when a newer compatible version exists.
+- **Remove** — deletes the jar.
+- **View on Modrinth** — opens the project page in a new tab.
+
+### Browse
+
+A live search across Modrinth's mod catalog. Pyrodactyl automatically applies
+your server's loader and Minecraft version as filters, so every result you see
+is compatible. Type to search by name, or click category chips
+(`adventure`, `optimization`, `utility`, etc.) to narrow the list.
+
+If a result is already installed on your server it's shown with the **Install**
+button disabled so you can't accidentally double-install.
+
+Click any result to open a detail view with the full description, every
+compatible version, and per-version install buttons.
+
+## Dependencies
+
+Mods sometimes depend on other mods (Iris needs Sodium, lots of Fabric mods
+need Fabric API). When you install or update a mod, Pyrodactyl reads the
+version's declared dependencies and decides what to do:
+
+| Dependency state | What happens |
+| --- | --- |
+| **Required**, not installed | A dialog asks you to confirm; clicking **Install all** installs the missing deps alongside your target mod. |
+| **Required**, already installed | Silently satisfied — no prompt. |
+| **Optional**, not installed | Mentioned in the dialog footer but never blocks. |
+| **Incompatible**, already installed | The action is blocked. A warning lists the incompatible mods so you can remove them first. |
+| **Embedded** | Ignored — the parent mod bundles the dependency itself. |
+
+Pyrodactyl always installs required dependencies before the target mod, so the
+server is never briefly running with the main mod missing one of its
+dependencies.
+
+## Safety: the running-server gate
+
+<Callout type="warn">
+  Pyrodactyl refuses to install, update, or remove mods while the server is
+  in any non-offline state — including `starting`, `running`, and `stopping`.
+</Callout>
+
+Modifying jars while the JVM is running can corrupt files on disk (Java holds
+file locks that don't compose well with overwriting) and almost always crashes
+the mod loader. Stop the server first; the action buttons re-enable as soon as
+the status drops to `offline`.
+
+A yellow banner at the top of either tab tells you when the gate is active.
+
+## Permissions
+
+The Mods nav item is gated behind the `mod.download` permission. The full
+set of mod permissions a subuser can be granted:
+
+- `mod.download` — see the Mods tab and install new mods.
+- `mod.update` — update mods already installed.
+- `mod.loader` — change the loader filter (currently auto-applied).
+- `mod.version` — change the version filter (currently auto-applied).
+- `mod.resolver` — interact with the dependency resolver.
+
+Removing a mod additionally requires `file.delete`. Without it, the **Remove**
+button appears but the action will fail with a permission error from Wings.
+
+## Common issues
+
+### "Mod manager unavailable"
+
+The server doesn't match the detection rules. Two flavors:
+
+- *"This server doesn't look like a modded Minecraft instance"* — your egg
+  doesn't include a feature string Pyrodactyl recognises. You're running
+  Paper, vanilla, or another non-mod-loader setup. The mod manager only
+  supports Fabric, Forge, NeoForge, and Quilt.
+- *"Couldn't determine the Minecraft version from the egg variables"* — the
+  expected env var (`MINECRAFT_VERSION`, `MC_VERSION`, etc.) is unset or set
+  to `latest`/`snapshot`. Set it to an exact version on the **Startup** page.
+
+### "No compatible version found"
+
+The mod has builds for your loader but not your exact Minecraft version, or
+the other way around. Check the project's Modrinth page — the version selector
+will show what game versions and loaders the mod actually supports.
+
+### Updates show but won't install
+
+If the server is running, the gate blocks every write action. Stop the server
+and try again. If the server is offline and the update still fails, check the
+**Console** tab — Wings sometimes reports download failures (network
+unreachable, disk full, file permissions) that the panel surfaces as a generic
+"install failed" toast.
+
+### Installed but identified as "Local jar"
+
+A jar lives in `mods/` that Modrinth has no SHA-1 record for. This is normal
+for:
+
+- Mods downloaded from CurseForge or another non-Modrinth source.
+- Mods built locally or pulled from GitHub releases that the author never
+  uploaded to Modrinth.
+- Modified jars (someone repackaged the file).
+
+You can still remove these, but the mod manager can't offer one-click updates
+because it doesn't know which project the jar belongs to.
