@@ -18,24 +18,46 @@ description: Pyrodactyl offers a variety of features tailored for hosting game s
 `subdomain_scpsl`: Configure subomains for Scp: Secret Labs.  
 `subdomain_teamspeak`: Configure subdomains for a teamspeak server.  
 
-## Minecraft Modding/plugin Support
+## Minecraft Modding/Plugin Support
 
-> ⚠️ **Coming soon™**
+### Pyrodactyl provides robust support for Minecraft modding and plugin platforms
 
-### Pyrodactyl provides robust support for Minecraft modding/plugin platforms:
+These are dynamic features — they're loaded by prefixing them with either
+`plugin/` or `mod/`. The prefix tells Pyrodactyl which install directory to
+target (`mods/` for `mod/*`, `plugins/` for `plugin/*`) and which family of
+loaders to expose in the mod manager. Whatever follows the prefix is matched
+against Modrinth's loader list. If you have an egg for something like
+[Velocity](https://papermc.io/software/velocity), you can declare that with
+`plugin/velocity`; the mod manager then filters to plugins flagged as
+compatible with Velocity.
 
-These are dynamic Features. they are loaded by prefixing them with either `plugin/` or `mod/`.  
-The prefix tells pyrodactyl what folder to put your downloaded mod or plugin into it's also  
-there as an identifier for the frontend system. What matters mor than that though, is  
-what you put after it. If you have an egg for something like [Velocity](https://papermc.io/software/velocity)  
-You can do that with `plugin/velocity`.  
-The system will do it's best to auto match it to a loader found via the modrinth api.
+Datapacks are detected automatically on any vanilla-derived loader and don't
+need their own feature flag — Pyrodactyl looks for `world/datapacks/` and
+exposes it as a project type in the Discover page when present.
 
-#### Examples of Minecraft Mod/Plugin Features
+See the [Mod Manager docs](/docs/pyrodactyl/mod-manager) for what the
+detection actually drives in the UI.
 
-`mod/forge`: Find mods for Forge Servers  
-`mod/fabric`: Find mods for Fabric Servers  
-`plugin/paper`: Find plugins for Paper Servers  
-`plugin/purpur`: Find plugins for Purpur Servers  
-`plugin/spigot`: Find plugins for Spigot Servers  
-`plugin/bungeecord`: Find plugins for Bungeecord proxies  
+#### Mod loader features
+
+`mod/fabric`: Find mods for Fabric servers  
+`mod/forge`: Find mods for Forge servers  
+`mod/neoforge`: Find mods for NeoForge servers  
+`mod/quilt`: Find mods for Quilt servers  
+
+#### Plugin platform features
+
+`plugin/paper`: Find plugins for Paper servers  
+`plugin/spigot`: Find plugins for Spigot servers  
+`plugin/bukkit`: Find plugins for Bukkit servers  
+`plugin/purpur`: Find plugins for Purpur servers  
+`plugin/velocity`: Find plugins for Velocity proxies  
+`plugin/waterfall`: Find plugins for Waterfall proxies  
+`plugin/bungeecord`: Find plugins for BungeeCord proxies  
+
+<Callout type="info">
+  Paper accepts Spigot and Bukkit plugins natively, and the mod manager
+  reflects that — a server flagged `plugin/paper` will surface plugins
+  Modrinth has tagged as `spigot` or `bukkit` too. The same loader-family
+  expansion applies to other plugin platforms.
+</Callout>

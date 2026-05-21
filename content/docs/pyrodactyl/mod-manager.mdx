@@ -1,177 +1,289 @@
 ---
 title: Mod Manager
-description: Browse, install, and update Minecraft mods directly from your server's web panel.
+description: Browse, install, and update Minecraft mods, plugins, and datapacks directly from your server's web panel.
 ---
 
-The mod manager lets you install and update mods for your modded Minecraft server
-without ever opening an SFTP client. Pyrodactyl identifies what's already
-installed, finds the right version for your server's loader and Minecraft
-version, and pulls new mods straight to the daemon — no upload-then-download
-round-trip through your browser.
+The mod manager lets you install and update mods, plugins, and datapacks
+for your Minecraft server without ever opening an SFTP client. Pyrodactyl
+identifies what's already on disk, finds the right version for your
+server's loader and Minecraft version, and pulls new content straight to
+the daemon — no upload-then-download round-trip through your browser.
 
 <Callout type="info">
-  The mod manager talks to [Modrinth](https://modrinth.com) for both browsing
-  and identifying installed mods. CurseForge is not supported in this release.
+  The mod manager talks to [Modrinth](https://modrinth.com) for browsing,
+  identifying installed content, and resolving versions. All Modrinth
+  requests are made from the user's browser, so the panel doesn't sit on
+  the rate-limit budget for the whole installation. CurseForge is not
+  supported.
 </Callout>
 
-## Where to find it
+## Two pages, one feature
 
-Open any server's panel page and click **Mods** in the left sidebar. The route
-is `/server/<id>/mods`. The page only appears on servers running a supported
-modded Minecraft egg (see below).
+The mod manager is split across two sidebar entries:
+
+- **Mods** (`/server/<id>/mods`) — what's on disk right now. The
+  installed list scans `mods/`, `plugins/`, and `world/datapacks/`,
+  identifies each file against Modrinth, and offers per-file actions
+  (enable/disable, update, switch version, remove, open in file
+  manager).
+- **Discover** (`/server/<id>/discover`) — Modrinth-driven discovery.
+  Project-type tabs (Mods / Plugins / Datapacks), category and game-
+  version filters, full URL-query mirroring so any filter combo is
+  shareable. Click a card to open the project detail view.
+
+Both pages light up on servers running a supported loader (see below).
+Project detail pages live at `/server/<id>/discover/project/<id>` and
+back-navigation lands on whichever page the user came from.
 
 ## What's supported
 
-The mod manager activates on Minecraft servers using one of these loaders:
+The mod manager activates on Minecraft servers using one of these
+loaders:
 
-- **Fabric**
-- **Forge**
-- **NeoForge**
-- **Quilt**
+**Mod loaders**
 
-If your server is using a vanilla, Paper, Spigot, Bukkit, or Purpur egg, the
-Mods tab won't show — those run plugins, not mods, and they're served from a
-different ecosystem that Modrinth indexes separately.
+- Fabric
+- Forge
+- NeoForge
+- Quilt
+
+**Plugin platforms**
+
+- Paper
+- Spigot
+- Bukkit
+- Purpur
+- Velocity
+- Waterfall
+- BungeeCord
+
+**Datapacks** are available on any vanilla-derived loader (Paper,
+Spigot, Fabric, Forge, etc.) — they live in `world/datapacks/` and don't
+care which loader is running.
+
+Pyrodactyl uses Modrinth's loader-family rules so a Paper server can
+install plugins flagged as Spigot or Bukkit, and a Quilt server can
+install Fabric mods.
 
 ### Server detection
 
-Pyrodactyl reads two things from your server to decide what the mod manager
-should show:
+Pyrodactyl reads two things from your server to decide what to show:
 
-1. **Loader** — read from the egg's feature list. Patterns like `mod/fabric`,
-   `mod/forge`, `mod/neoforge`, and `mod/quilt` all match. NeoForge is
-   recognised before Forge to avoid misclassifying a NeoForge egg as Forge.
-2. **Minecraft version** — read from your startup variables in this order:
-   `MINECRAFT_VERSION`, then `MC_VERSION`, then `VANILLA_VERSION`, then
-   `GAME_VERSION`. Whichever is set first wins, and your saved server value
-   beats the egg's default.
+1. **Loader** — read from the egg's feature list. Patterns like
+   `mod/fabric`, `mod/forge`, `mod/neoforge`, `plugin/paper`, and
+   `plugin/velocity` all match. NeoForge is recognised before Forge to
+   avoid misclassifying a NeoForge egg as Forge.
+2. **Minecraft version** — read from your startup variables in this
+   order: `MINECRAFT_VERSION`, then `MC_VERSION`, then `VANILLA_VERSION`,
+   then `GAME_VERSION`. Whichever is set first wins.
 
-<Callout type="warn">
-  Values of `latest` or `snapshot` are deliberately ignored. The mod manager
-  can't reliably pick mods for sentinel versions, so set an exact Minecraft
-  version (e.g. `1.20.1`) on your server's **Startup** page if you want the
-  Mods tab to be available.
+<Callout type="info">
+  Setting your version to the literal string `latest` is supported —
+  Pyrodactyl resolves it to the newest stable Minecraft release from
+  Modrinth's game-version list at scan time. Snapshot versions are
+  filtered out by default; toggle "Show snapshots" on the game-version
+  filter if you actually want them.
 </Callout>
 
-## The two tabs
+## Mods page
 
-### Installed
+The installed list scans every supported directory in parallel and lists
+each file with:
 
-Lists every `.jar` in your server's `mods/` directory. For each file Pyrodactyl:
+- The file's display name (resolved against Modrinth by SHA-1, with
+  in-jar metadata as a fallback).
+- The mod's author and avatar.
+- The supported Minecraft versions (collapsed to `1.21.x` ranges when
+  contiguous).
+- An icon-only "switch version" button. When a newer compatible version
+  is available the button turns red so it stands out.
+- Per-row actions (3-dot menu): update, switch version, remove,
+  enable/disable, view on Modrinth, show in file manager.
 
-- Computes a SHA-1 hash in your browser.
-- Asks Modrinth which mod that hash belongs to.
-- For identified mods, finds the latest version compatible with your loader
-  and Minecraft version — if it's newer than what you have, a yellow **Update**
-  badge appears.
+The page also has:
 
-Files Modrinth doesn't recognise are still shown. Pyrodactyl parses
-`fabric.mod.json`, `quilt.mod.json`, or `META-INF/mods.toml` inside the jar so
-you at least see a name and version. You can still remove them — you just
-can't get one-click updates for mods Modrinth hasn't indexed.
+- **Search** — relevance-ranked, debounced ~350ms.
+- **Filter chips** — enabled / disabled / has-update / mods / plugins /
+  datapacks. Enabled+disabled are mutually exclusive; the type chips
+  only show when at least two project types are present.
+- **Sort** — name, file size, last modified, author.
+- **Bulk actions** — when one or more rows are selected, a bar slides
+  in with: enable, disable, update all, remove. "Update All" turns red
+  when one or more selected mods have updates available.
 
-Per-mod actions:
+## Discover page
 
-- **Update** — only enabled when a newer compatible version exists.
-- **Remove** — deletes the jar.
-- **View on Modrinth** — opens the project page in a new tab.
+Discover is the search/browse view across the Modrinth catalogue. The
+header offers:
 
-### Browse
+- **Type dropdown** — Mods / Plugins / Datapacks. The active type
+  drives which categories show up in the category filter, which
+  upload directory the "Upload files" button targets, and which
+  permission family the install button uses.
+- **Category multi-select**, **Loader override**, **Game-version
+  override** — same FilterDropdown component as the Mods page, with
+  built-in search and a sticky select-all/clear-all toggle.
+- **Sort dropdown** — relevance, downloads, follows, updated, newly
+  published.
+- **Pagination** — numeric pages, mirrored top and bottom.
+- **Hide installed** toggle — skips cards for projects already on
+  disk.
 
-A live search across Modrinth's mod catalog. Pyrodactyl automatically applies
-your server's loader and Minecraft version as filters, so every result you see
-is compatible. Type to search by name, or click category chips
-(`adventure`, `optimization`, `utility`, etc.) to narrow the list.
+Every filter mirrors to `?type`, `?cat`, `?loader`, `?mc`, `?sort`,
+`?hideInstalled`, `?snapshots`, and `?page` query params, so any
+combination is shareable and back/forward navigation restores filters
+correctly.
 
-If a result is already installed on your server it's shown with the **Install**
-button disabled so you can't accidentally double-install.
+When the loader or game-version override differs from your server's
+natural default, a toast surfaces with a one-click "Reset" action so
+you don't accidentally browse with stale filters across visits.
 
-Click any result to open a detail view with the full description, every
-compatible version, and per-version install buttons.
+## Project detail page
+
+Clicking a card opens the project detail at
+`/server/<id>/discover/project/<id>`. Tabs:
+
+- **Description** — Modrinth's project description rendered as markdown
+  (with `rehype-raw` so HTML inside markdown — badges, `<br>` — paints
+  correctly).
+- **Gallery** — any images the author uploaded, with a click-to-zoom
+  lightbox.
+- **Changelog** — every published version's release notes laid out as
+  a timeline, with platform and game-version filter chips so you can
+  isolate "what changed for Fabric 1.21" easily.
+- **Versions** — table view of every published version, with the same
+  filter chips as Changelog and a per-row 3-dot menu (install,
+  download, copy URL, open on Modrinth).
+
+The right sidebar surfaces tags, creators, license, and external links
+(source, issues, Discord, donation URLs). Category and tag chips are
+clickable — clicking one navigates back to Discover with that filter
+preselected.
 
 ## Dependencies
 
-Mods sometimes depend on other mods (Iris needs Sodium, lots of Fabric mods
-need Fabric API). When you install or update a mod, Pyrodactyl reads the
-version's declared dependencies and decides what to do:
+Mods often depend on other mods (Iris needs Sodium, most Fabric mods
+need Fabric API). When you install or update, Pyrodactyl reads the
+target version's declared dependencies and reacts:
 
 | Dependency state | What happens |
 | --- | --- |
-| **Required**, not installed | A dialog asks you to confirm; clicking **Install all** installs the missing deps alongside your target mod. |
-| **Required**, already installed | Silently satisfied — no prompt. |
-| **Optional**, not installed | Mentioned in the dialog footer but never blocks. |
-| **Incompatible**, already installed | The action is blocked. A warning lists the incompatible mods so you can remove them first. |
+| **Required**, not installed | Confirmation dialog with "Install all" — installs the missing dependencies alongside your target. |
+| **Required**, already installed | Silently satisfied; no prompt. |
+| **Optional**, not installed | Listed in the dialog footer but never blocks. |
+| **Incompatible**, already installed | Action is blocked. Warning lists the incompatible mods so you can remove them first. |
 | **Embedded** | Ignored — the parent mod bundles the dependency itself. |
 
-Pyrodactyl always installs required dependencies before the target mod, so the
-server is never briefly running with the main mod missing one of its
-dependencies.
+Required dependencies are always installed before the target file, so
+the server is never briefly running with the main mod missing one of
+its dependencies.
 
-## Safety: the running-server gate
+## Running-server behaviour
 
-<Callout type="warn">
-  Pyrodactyl refuses to install, update, or remove mods while the server is
-  in any non-offline state — including `starting`, `running`, and `stopping`.
-</Callout>
+Pyrodactyl no longer blocks mod operations while the server is running.
+The JVM only re-reads the `mods/` directory at startup, so jar changes
+to a live server simply don't take effect until the next restart —
+they don't corrupt anything.
 
-Modifying jars while the JVM is running can corrupt files on disk (Java holds
-file locks that don't compose well with overwriting) and almost always crashes
-the mod loader. Stop the server first; the action buttons re-enable as soon as
-the status drops to `offline`.
+To signal this, the first jar mutation made while the server is
+running fires a one-shot toast:
 
-A yellow banner at the top of either tab tells you when the gate is active.
+> Server restart required to apply mod changes.
+
+The flag is scoped per server UUID and clears automatically when the
+status returns to `offline`. Any subsequent mutations in the same
+"run" don't toast again — once is enough.
+
+## Settings deep-links
+
+The mod manager surfaces toast actions that deep-link into the
+Settings page for related changes:
+
+- Editing `MINECRAFT_VERSION` on the Startup section warns you that
+  installed mods may not be compatible with the new version.
+- The Discover toast that fires when you change loader/MC version
+  away from the server default has a "Reset" action that clears the
+  URL filters in one click.
 
 ## Permissions
 
-The Mods nav item is gated behind the `mod.download` permission. The full
-set of mod permissions a subuser can be granted:
+The Mods and Discover sidebar entries are both gated behind the
+`mod.download` permission. The full set of mod permissions a subuser
+can be granted:
 
-- `mod.download` — see the Mods tab and install new mods.
-- `mod.update` — update mods already installed.
-- `mod.loader` — change the loader filter (currently auto-applied).
-- `mod.version` — change the version filter (currently auto-applied).
+- `mod.download` — see the Mods and Discover pages and install new
+  content.
+- `mod.update` — update content already installed.
+- `mod.loader` — change the loader filter override on Discover.
+- `mod.version` — change the game-version filter override on Discover.
 - `mod.resolver` — interact with the dependency resolver.
 
-Removing a mod additionally requires `file.delete`. Without it, the **Remove**
-button appears but the action will fail with a permission error from Wings.
+Removing a file additionally requires `file.delete`. Without it, the
+Remove menu item appears but the action will fail with a permission
+error from Wings/Elytra.
+
+## API endpoint
+
+The Mods page calls a small panel-side endpoint to enumerate jars and
+compute SHA-1 + parse jar metadata server-side (cheaper than sending
+the full file across to the browser):
+
+```
+GET /api/client/servers/{daemon}/{uuid}/mods/scan
+   ?directory=mods|plugins|world/datapacks
+   &mode=quick|missing|full
+```
+
+- `quick` — return cached entries only, mark unseen files as
+  `pending`.
+- `missing` — scan only files we don't have a cached fingerprint for.
+- `full` — re-scan every file regardless of cache.
+
+The endpoint exists in both `wings` and `elytra` daemon trees. It's
+rate-limited at 20 requests per minute per user.
+
+All other Modrinth interactions (search, project, /version_files, team
+members) happen directly from the user's browser against
+`https://api.modrinth.com/v2`, never proxied by the panel.
 
 ## Common issues
 
 ### "Mod manager unavailable"
 
-The server doesn't match the detection rules. Two flavors:
+The server doesn't match the detection rules. Two flavours:
 
-- *"This server doesn't look like a modded Minecraft instance"* — your egg
-  doesn't include a feature string Pyrodactyl recognises. You're running
-  Paper, vanilla, or another non-mod-loader setup. The mod manager only
-  supports Fabric, Forge, NeoForge, and Quilt.
-- *"Couldn't determine the Minecraft version from the egg variables"* — the
-  expected env var (`MINECRAFT_VERSION`, `MC_VERSION`, etc.) is unset or set
-  to `latest`/`snapshot`. Set it to an exact version on the **Startup** page.
+- **"This server doesn't look like a modded Minecraft instance"** —
+  your egg doesn't include a `mod/<loader>` or `plugin/<loader>`
+  feature string Pyrodactyl recognises.
+- **"Couldn't determine the Minecraft version from the egg
+  variables"** — the expected env var is unset. Set
+  `MINECRAFT_VERSION` (or `MC_VERSION`, etc.) on the Settings page
+  under Startup, or use the literal string `latest` to track the
+  newest stable release.
 
 ### "No compatible version found"
 
-The mod has builds for your loader but not your exact Minecraft version, or
-the other way around. Check the project's Modrinth page — the version selector
-will show what game versions and loaders the mod actually supports.
-
-### Updates show but won't install
-
-If the server is running, the gate blocks every write action. Stop the server
-and try again. If the server is offline and the update still fails, check the
-**Console** tab — Wings sometimes reports download failures (network
-unreachable, disk full, file permissions) that the panel surfaces as a generic
-"install failed" toast.
+The project has builds for your loader but not your exact Minecraft
+version, or the other way around. Open the project detail page and
+check the Versions tab — the filter chips tell you exactly what game
+versions and loaders the project actually supports.
 
 ### Installed but identified as "Local jar"
 
-A jar lives in `mods/` that Modrinth has no SHA-1 record for. This is normal
-for:
+A jar lives in the install directory that Modrinth has no SHA-1 record
+for. This is normal for:
 
-- Mods downloaded from CurseForge or another non-Modrinth source.
-- Mods built locally or pulled from GitHub releases that the author never
+- Content downloaded from CurseForge or another non-Modrinth source.
+- Mods built locally or pulled from GitHub releases the author never
   uploaded to Modrinth.
-- Modified jars (someone repackaged the file).
+- Modified jars (someone repackaged the file, even slightly).
 
-You can still remove these, but the mod manager can't offer one-click updates
-because it doesn't know which project the jar belongs to.
+You can still remove these or open them in the file manager, but the
+mod manager can't offer one-click updates because it doesn't know
+which project the jar belongs to.
+
+### Toast says "Server restart required"
+
+This is informational, not an error. The change has been written to
+disk; the running JVM just won't pick it up until the next start.
+Restart the server when you're ready to apply the queued changes.
