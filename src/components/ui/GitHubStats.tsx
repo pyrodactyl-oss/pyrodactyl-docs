@@ -9,10 +9,9 @@ export function GitHubStats() {
   useEffect(() => {
     Promise.all([
       fetch('https://api.eva.pink/api/stars/pyrodactyl-oss/pyrodactyl').then(r => r.json()),
-      fetch('https://api.eva.pink/api/stars/pyrohost/pyrodactyl').then(r => r.json()),
     ])
-      .then(([repo1, repo2]) => {
-        setStars((repo1.stars || 0) + (repo2.stars || 0));
+      .then(([repo1]) => {
+        setStars((repo1.stars || 0));
       })
       .catch(console.error);
   }, []);
