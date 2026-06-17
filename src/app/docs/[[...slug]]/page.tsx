@@ -29,13 +29,6 @@ export default async function Page({ params }: PageParams) {
         enabled: true,
         style: 'clerk'
       }}
-      lastUpdate={page.data.lastModified ? new Date(page.data.lastModified) : undefined}
-      editOnGithub={{
-        owner: 'pyrodactyl-oss',
-        repo: 'pyrodactyl-docs',
-        sha: 'main',
-        path: `content/docs/${page.file.path}`,
-      }}
       full={page.data.full}
     >
       <DocsTitle>{page.data.title}</DocsTitle>

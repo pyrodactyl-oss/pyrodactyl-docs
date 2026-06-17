@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { MagnifyingGlassIcon, BookOpenIcon } from '@heroicons/react/24/solid';
-import { useSearchContext } from 'fumadocs-ui/provider';
+import { useSearchContext } from 'fumadocs-ui/contexts/search';
 
 const Logo = () => (
   <svg aria-label="Pyrodactyl logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 83 61" className="w-6 h-6" fill="none">
