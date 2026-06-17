@@ -23,7 +23,7 @@ export const baseOptions: BaseLayoutProps = {
             clipRule="evenodd"
           />
         </svg>
-        <span className="font-semibold">Panel</span>
+        <span className="font-semibold">Pyrodactyl</span>
       </div>
     ),
   },
