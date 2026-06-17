@@ -4,6 +4,7 @@ import { DocsPage, DocsBody, DocsTitle, DocsDescription } from 'fumadocs-ui/page
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 import { Card, Cards } from 'fumadocs-ui/components/card';
 import defaultMdxComponents, { createRelativeLink } from 'fumadocs-ui/mdx';
+import { LatestRelease } from '@/components/LatestRelease';
 import { source } from '@/lib/source';
 
 interface PageParams {
@@ -41,7 +42,8 @@ export default async function Page({ params }: PageParams) {
             Tabs,
             Tab,
             Card,
-            Cards
+            Cards,
+            LatestRelease
           }}
         />
       </DocsBody>
