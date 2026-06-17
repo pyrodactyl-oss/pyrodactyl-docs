@@ -1,0 +1,156 @@
+---
+title: Mod Manager
+description: Browse, install, update, and manage Minecraft mods from the server panel.
+---
+
+The mod manager adds two server pages:
+
+- **Mods** shows files already installed on the server.
+- **Discover** searches Modrinth for mods, plugins, and datapacks that match the
+  server.
+
+<Callout type="info">
+  The mod manager uses [Modrinth](https://modrinth.com) for search, project
+  metadata, version lookup, and file identification. CurseForge is not
+  supported.
+</Callout>
+
+## Supported servers
+
+The mod manager is available when the server egg has a supported Minecraft
+loader or plugin feature.
+
+### Mod loaders
+
+- `mod/fabric`
+- `mod/forge`
+- `mod/neoforge`
+- `mod/quilt`
+
+### Plugin platforms
+
+- `plugin/paper`
+- `plugin/spigot`
+- `plugin/bukkit`
+- `plugin/purpur`
+- `plugin/velocity`
+- `plugin/waterfall`
+- `plugin/bungeecord`
+
+Datapacks are shown on vanilla-derived servers and use `world/datapacks/`.
+
+See [Egg Features](/docs/pyrodactyl/config/egg-features) for more details on
+feature flags.
+
+## Server detection
+
+Pyrodactyl reads the loader from the egg feature list. It reads the Minecraft
+version from the first matching startup variable:
+
+1. `MINECRAFT_VERSION`
+1. `MC_VERSION`
+1. `VANILLA_VERSION`
+1. `GAME_VERSION`
+
+If the value is `latest`, Pyrodactyl resolves it to the latest stable Minecraft
+version from Modrinth.
+
+## Mods page
+
+The Mods page scans these directories:
+
+- `mods/`
+- `plugins/`
+- `world/datapacks/`
+
+Each file is identified by SHA-1 against Modrinth. If Modrinth does not identify
+the file, Pyrodactyl falls back to metadata inside the jar when available.
+
+Use this page to:
+
+- Search installed files.
+- Filter by enabled, disabled, updates, or project type.
+- Sort by name, file size, modified date, or author.
+- Enable, disable, update, remove, or switch versions for one file.
+- Select multiple files and run bulk enable, disable, update, or remove actions.
+
+Disabled jars are stored with `.disabled` appended to the filename.
+
+## Discover page
+
+The Discover page searches Modrinth using the server's detected loader and
+Minecraft version by default.
+
+Use the filters to change:
+
+- Project type: mods, plugins, or datapacks
+- Category
+- Loader
+- Minecraft version
+- Sort order
+- Whether installed projects are hidden
+
+Filters are stored in the URL, so filtered searches can be shared or restored
+with browser back and forward navigation.
+
+## Project pages
+
+Project pages show the Modrinth description, gallery, changelog, versions,
+license, links, and creator information.
+
+From a project page, you can install a compatible version or open the version
+menu for download and link actions.
+
+## Dependencies
+
+When installing or updating, Pyrodactyl checks the selected Modrinth version for
+dependencies.
+
+| Dependency | Behavior |
+| --- | --- |
+| Required and missing | Pyrodactyl asks to install it with the selected project. |
+| Required and installed | No action is needed. |
+| Optional and missing | Shown for reference, but not required. |
+| Incompatible and installed | The install or update is blocked until the conflict is removed. |
+| Embedded | Ignored because it is bundled with the selected project. |
+
+Required dependencies are installed before the selected project.
+
+## Running servers
+
+Mod changes can be made while a server is running, but Minecraft only loads jars
+on startup. Restart the server after installing, updating, enabling, disabling,
+or removing jars.
+
+Pyrodactyl shows a restart reminder the first time a jar changes while the server
+is online.
+
+## Permissions
+
+Subusers need `mod.download` to view Mods and Discover.
+
+Other mod permissions:
+
+- `mod.update` allows updates to installed content.
+- `mod.loader` allows changing the Discover loader filter.
+- `mod.version` allows changing the Discover Minecraft version filter.
+- `mod.resolver` allows dependency resolver actions.
+
+Removing files also requires `file.delete`.
+
+## Scan endpoint
+
+The Mods page uses a panel endpoint to scan supported directories without sending
+whole files to the browser.
+
+```http
+GET /api/client/servers/{daemon}/{uuid}/mods/scan
+  ?directory=mods|plugins|world/datapacks
+  &mode=quick|missing|full
+```
+
+Scan modes:
+
+- `quick` returns cached entries and marks uncached files as pending.
+- `missing` scans files that are not cached yet.
+- `full` scans every file again.

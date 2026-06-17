@@ -1,41 +1,67 @@
 ---
 title: Egg Features
-description: Pyrodactyl offers a variety of features tailored for hosting game servers efficiently. Below is a detailed overview of the supported features for Pyrodactyl eggs, designed to enhance your server management experience.
+description: Feature flags supported by Pyrodactyl eggs.
 ---
 
-#### Hytale Oath Support. Provides and Easy to use link for Setting up and downloading the Hytale Server Binary.
-`hytale_oauth`: Hytale modal that makes it easy to setup Hytale with oath or a code.
+Egg features enable panel behavior for servers that support it. Add the feature
+string to the egg so Pyrodactyl can expose the matching UI.
 
-#### Uses the [McLogs](https://mclo.gs/) Service to provide detailed breakdowns of server crashes in the comfort of Pyrodactyl!
-`mclogs`: Integrated logging system for Minecraft servers, allowing easy access to server logs for debugging and monitoring.
+## General features
+
+`hytale_oauth`: Shows the Hytale setup modal for downloading and configuring the
+Hytale server binary.
+
+`mclogs`: Adds mclo.gs crash and log analysis for Minecraft servers.
 
 ## Subdomains
-### Pyrodactyl supports custom subdomains for seamless server access:
 
-`subdomain_minecraft`: Create dedicated subdomains for Minecraft servers.  
-`subdomain_factorio`: Assign subdomains for Factorio servers.  
-`subdomain_rust`: Configure subdomains for Rust servers.  
-`subdomain_scpsl`: Configure subomains for Scp: Secret Labs.  
-`subdomain_teamspeak`: Configure subdomains for a teamspeak server.  
+Use a subdomain feature to allow Pyrodactyl to create server connection records
+for the egg.
 
-## Minecraft Modding/plugin Support
+- `subdomain_minecraft`: Minecraft servers
+- `subdomain_factorio`: Factorio servers
+- `subdomain_rust`: Rust servers
+- `subdomain_scpsl`: SCP: Secret Laboratory servers
+- `subdomain_teamspeak`: TeamSpeak servers
 
-> ⚠️ **Coming soon™**
+See [Cloudflare Subdomains](/docs/pyrodactyl/subdomains/cloudflare) for DNS
+provider setup.
 
-### Pyrodactyl provides robust support for Minecraft modding/plugin platforms:
+## Minecraft mods and plugins
 
-These are dynamic Features. they are loaded by prefixing them with either `plugin/` or `mod/`.  
-The prefix tells pyrodactyl what folder to put your downloaded mod or plugin into it's also  
-there as an identifier for the frontend system. What matters mor than that though, is  
-what you put after it. If you have an egg for something like [Velocity](https://papermc.io/software/velocity)  
-You can do that with `plugin/velocity`.  
-The system will do it's best to auto match it to a loader found via the modrinth api.
+Mod manager features use a `mod/` or `plugin/` prefix:
 
-#### Examples of Minecraft Mod/Plugin Features
+- `mod/*` installs to `mods/`
+- `plugin/*` installs to `plugins/`
 
-`mod/forge`: Find mods for Forge Servers  
-`mod/fabric`: Find mods for Fabric Servers  
-`plugin/paper`: Find plugins for Paper Servers  
-`plugin/purpur`: Find plugins for Purpur Servers  
-`plugin/spigot`: Find plugins for Spigot Servers  
-`plugin/bungeecord`: Find plugins for Bungeecord proxies  
+The value after the prefix is matched against Modrinth loaders. For example,
+`plugin/velocity` makes the mod manager search for Velocity-compatible plugins.
+
+Datapacks do not need a feature flag. Pyrodactyl shows datapacks for
+vanilla-derived Minecraft servers and installs them to `world/datapacks/`.
+
+### Mod loaders
+
+- `mod/fabric`: Fabric mods
+- `mod/forge`: Forge mods
+- `mod/neoforge`: NeoForge mods
+- `mod/quilt`: Quilt mods
+
+### Plugin platforms
+
+- `plugin/paper`: Paper plugins
+- `plugin/spigot`: Spigot plugins
+- `plugin/bukkit`: Bukkit plugins
+- `plugin/purpur`: Purpur plugins
+- `plugin/velocity`: Velocity proxy plugins
+- `plugin/waterfall`: Waterfall proxy plugins
+- `plugin/bungeecord`: BungeeCord proxy plugins
+
+<Callout type="info">
+  Some platforms can run plugins from related loaders. For example, Paper can
+  run many Spigot and Bukkit plugins, so Pyrodactyl includes those results for
+  Paper servers.
+</Callout>
+
+See [Mod Manager](/docs/pyrodactyl/mod-manager) for user-facing mod manager
+behavior.
