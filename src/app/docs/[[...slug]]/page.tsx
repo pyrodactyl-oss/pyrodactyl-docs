@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { DocsPage, DocsBody, DocsTitle, DocsDescription } from 'fumadocs-ui/page';
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 import { Card, Cards } from 'fumadocs-ui/components/card';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
 import defaultMdxComponents, { createRelativeLink } from 'fumadocs-ui/mdx';
 import { LatestRelease } from '@/components/LatestRelease';
 import { source } from '@/lib/source';
@@ -43,6 +44,8 @@ export default async function Page({ params }: PageParams) {
             Tab,
             Card,
             Cards,
+            Step,
+            Steps,
             LatestRelease
           }}
         />

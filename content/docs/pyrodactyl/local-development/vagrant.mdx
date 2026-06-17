@@ -18,34 +18,56 @@ You might need `nfs-utils`. Install your distro's package, then start the `nfs-s
 
 ## Initial setup
 
-1. Clone the Pyrodactyl panel repository
+<Steps>
+<Step>
+### Clone Repository
 
-2. Install dependencies:
+Clone the Pyrodactyl panel repository.
+</Step>
 
-   ```bash
-   pnpm i
-   ```
+<Step>
+### Install Dependencies
 
-3. Build the project:
+```bash
+pnpm i
+```
 
-   ```bash
-   pnpm run ship
-   ```
+</Step>
 
-   - Caches build results
-   - Uploads sourcemaps to Sentry
-   - Makes subsequent builds without code changes nearly instant
+<Step>
+### Build the Project
 
-4. Initialize the environment: `vagrant up`
+```bash
+pnpm run ship
+```
 
-   - Sets up Wings (backend) and required services
-   - Configures databases and applications
-   - Takes approximately 15 minutes
+- Caches build results
+- Uploads sourcemaps to Sentry
+- Makes subsequent builds without code changes nearly instant
+</Step>
 
-5. Access Pyrodactyl at `localhost:3000` and login with the console-provided credentials
-   <Callout type="warn">
-     Always use `localhost`, not `127.0.0.1`, to avoid CORS issues!
-   </Callout>
+<Step>
+### Initialize Vagrant Environment
+
+```bash
+vagrant up
+```
+
+- Sets up Wings (backend) and required services
+- Configures databases and applications
+- Takes approximately 15 minutes
+</Step>
+
+<Step>
+### Access Pyrodactyl
+
+Access Pyrodactyl at `localhost:3000` and login with the console-provided credentials.
+
+<Callout type="warn">
+  Always use `localhost`, not `127.0.0.1`, to avoid CORS issues!
+</Callout>
+</Step>
+</Steps>
 
 ## General usage
 

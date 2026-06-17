@@ -32,68 +32,93 @@ This guide walks you through setting up Pyrodactyl using Dokploy, from initial d
 
 ## Panel Installation
 
-1. **Create a new project** in your Dokploy dashboard
+<Steps>
+<Step>
+### Create a New Project
 
-- Login to whatever host your using.
+In your Dokploy dashboard:
+
+- Login to whatever host your using
 - Select **Create Project** name it whatever you want
 - Click on that Project
+</Step>
 
-2. **Create Service**:
+<Step>
+### Create Service
 
 - Click the **Create Service** button in the top right
 - Select Template
-- Search For **_Pyrodactyl_**
+- Search for **Pyrodactyl**
 - Select Create
 - Choose what server to install it to
 - Select Confirm
+</Step>
 
-3. **Configuring Pyrodactyl**
+<Step>
+### Configure Pyrodactyl
 
-- The only thing you as a user need to change is the domain.
-    1. Select the domains tab under the pyrodactyl panel service
-    1. Click the edit domain button
-    1. Change host to whatever you want it to be(You must have the domain configured at this point)
-    1. Click update
+The only thing you as a user need to change is the domain.
 
-4. **Deploy the application**:
+1. Select the domains tab under the pyrodactyl panel service
+1. Click the edit domain button
+1. Change host to whatever you want it to be (You must have the domain configured at this point)
+1. Click update
+</Step>
 
-- Click "Deploy" to start the build process
-- Check the url you configured panel to be at, and it should be there.
+<Step>
+### Deploy
 
-5. **Initial setup**:
+- Click **Deploy** to start the build process
+- Check the URL you configured the panel to be at, and it should be there
+</Step>
 
-- Once deployed, access the container's terminal via Dokploy
-- Run the admin user creation command:
-  ```bash
-  php artisan p:user:make
-  ```
-- Follow prompts to create your first admin account
+<Step>
+### Initial Setup
+
+Once deployed, access the container's terminal via Dokploy and run the admin user creation command:
+
+```bash
+php artisan p:user:make
+```
+
+Follow prompts to create your first admin account.
+</Step>
+</Steps>
 
 ## Post-Installation Configuration
 
-1. **Panel setup**:
+<Steps>
+<Step>
+### Panel Setup
 
-   - Access your panel at the configured domain/IP
-   - Login with your admin account
-   - Navigate to Admin → Locations and create a new location
-   - Navigate to Nodes and add your Wings instance
+- Access your panel at the configured domain/IP
+- Login with your admin account
+- Navigate to Admin → Locations and create a new location
+- Navigate to Nodes and add your Wings instance
+</Step>
 
-2. **Email configuration** (Admin → Settings):
+<Step>
+### Email Configuration
 
-   - Configure SMTP settings for user notifications
-   - Recommended providers:
-     - Resend
-     - Mailgun
-     - AWS SES
+Go to **Admin → Settings** and configure SMTP settings for user notifications. Recommended providers: Resend, Mailgun, AWS SES.
+</Step>
 
-3. **SSL configuration** (recommended):
-   - Use Dokploys's built-in Let's Encrypt integration
-   - Or configure Cloudflare proxy for DDoS protection
+<Step>
+### SSL Configuration
+
+Use Dokploy's built-in Let's Encrypt integration, or configure Cloudflare proxy for DDoS protection.
+</Step>
+</Steps>
 
 ## Maintenance
 
-1. **Updating Pyrodactyl**:
-   - In Dokploy, trigger a rebuild of your panel application
+<Steps>
+<Step>
+### Update Pyrodactyl
+
+In Dokploy, trigger a rebuild of your panel application.
+</Step>
+</Steps>
 
 ## Troubleshooting
 

@@ -8,72 +8,87 @@ description: Bind issues with Pyrodactyl
 
 If your service or game server is failing to start because of **port binding errors**, follow these steps to resolve the problem.
 
----
-
-
 <Callout title="Subdomain on 0.0.0.0" type='info'>
   If you need Subdomains to work while using `0.0.0.0` for IPs, You can set an address alias and turn on `Domain by Allocation Alias` in your node config
 </Callout>
 
+<Steps>
 
-## 1. Check Your Bind Address
+<Step>
+### Check Your Bind Address
 
 The most common cause of binding errors is the bind address being set incorrectly.
 
-* ✅ Correct: `0.0.0.0`
-* ❌ Incorrect: Your public IP (e.g., `192.168.x.x` or `123.45.67.89`)
+<div className="not-prose my-4 space-y-2">
 
-**Why?**
-Using `0.0.0.0` tells the service to listen on *all available network interfaces*. If you bind directly to your public IP, the server may fail to start if that IP is not available on the host system.
+<div className="flex items-center gap-3 rounded-lg border border-green-500/20 bg-green-500/5 px-4 py-3">
+  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-green-500/15 text-sm text-green-400">✓</span>
+  <div>
+    <span className="text-sm font-medium text-green-400">Correct</span>
+    <code className="ml-2 rounded-md bg-green-500/10 px-2 py-0.5 text-sm text-green-300">0.0.0.0</code>
+  </div>
+</div>
 
-There are cases where this may not be the case. but you won't have these problems if so.
+<div className="flex items-center gap-3 rounded-lg border border-red-500/20 bg-red-500/5 px-4 py-3">
+  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-red-500/15 text-sm text-red-400">✕</span>
+  <div>
+    <span className="text-sm font-medium text-red-400">Incorrect</span>
+    <code className="ml-2 rounded-md bg-red-500/10 px-2 py-0.5 text-sm text-red-300">192.168.x.x</code>
+    <span className="ml-1 text-sm text-white/50">or your public IP</span>
+  </div>
+</div>
 
-Always make sure your allocation (bind IP) is set to:
+</div>
 
-```
-0.0.0.0
-```
+Using `0.0.0.0` tells the service to listen on **all available network interfaces**. If you bind directly to your public IP, the server may fail to start if that IP is not available on the host system. In rare cases this may not apply, but using `0.0.0.0` avoids these problems entirely.
+</Step>
 
----
+<Step>
+### Verify the Port is Free
 
-## 2. Verify the Port is Free
+Run one of these commands on the host to check if another process is already using the port:
 
-Run this command on the host to check if another process is already using the port:
+<Tabs items={["lsof", "netstat"]}>
+<Tab value="lsof">
 
 ```bash
 sudo lsof -i :<PORT>
 ```
 
-or
+</Tab>
+<Tab value="netstat">
 
 ```bash
 netstat -tulpn | grep <PORT>
 ```
 
+</Tab>
+</Tabs>
+
 If something else is using the port, either:
 
 * Stop the other process, or
-* Change your service/game server to a different port.
+* Change your service or game server to a different port.
+</Step>
 
----
-
-## 3. Confirm Allocations in Your Panel
+<Step>
+### Confirm Allocations in Your Panel
 
 If you are using a control panel:
 
-* Make sure the **IP allocation** is `0.0.0.0`.
-* Verify the **port allocation** matches what the service is configured to use.
+* Make sure the **IP allocation** is `0.0.0.0`
+* Verify the **port allocation** matches what the service is configured to use
+</Step>
 
----
+<Step>
+### Firewall & Security Groups
 
-## 5. Firewall & Security Groups
-
-If the server starts successfully but you cannot connect:
-
-* Ensure the port is allowed in your firewall:
+If the server starts successfully but you cannot connect, ensure the port is allowed in your firewall:
 
 ```bash
 sudo ufw allow <PORT>/tcp
 ```
 
----
+</Step>
+
+</Steps>

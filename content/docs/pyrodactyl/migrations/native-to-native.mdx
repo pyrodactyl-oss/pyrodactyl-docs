@@ -27,86 +27,127 @@ mariadb-dump -u root -p --opt panel > ./panel.sql
 
 ### Migration Steps
 
-1. Install a Node Version Manager
-    
-    ```bash
-    curl -o- https://fnm.vercel.app/install | bash
-    ```
+<Steps>
+<Step>
+### Install Node Version Manager
 
-1. Install Node 22
+```bash
+curl -o- https://fnm.vercel.app/install | bash
+```
 
-    ```bash
-    fnm install 22
-    ```
+</Step>
 
-1. Navigate to the directory where your current Pterodactyl panel is installed
+<Step>
+### Install Node 22
 
-    ```bash
-    cd /var/www/pterodactyl
-    ```
+```bash
+fnm install 22
+```
 
-1. Put the panel into maintenance mode
+</Step>
 
-    ```bash
-    php artisan down
-    ```
+<Step>
+### Navigate to Pterodactyl Directory
 
-1. Download and extract the latest Pyrodactyl release:
+```bash
+cd /var/www/pterodactyl
+```
 
-    ```bash
-    curl -L https://github.com/pyrodactyl-oss/pyrodactyl/releases/latest/download/panel.tar.gz | tar -xzv
-    ```
+</Step>
 
-1. Set proper permissions:
+<Step>
+### Enable Maintenance Mode
 
-    ```bash
-    chmod -R 755 storage/* bootstrap/cache
-    ```
+```bash
+php artisan down
+```
 
-1. Install PHP dependencies:
+</Step>
 
-    ```bash
-    composer install --no-dev --optimize-autoloader
-    ```
+<Step>
+### Download Pyrodactyl Release
 
-1. Clear cached views and configuration:
+```bash
+curl -L https://github.com/pyrodactyl-oss/pyrodactyl/releases/latest/download/panel.tar.gz | tar -xzv
+```
 
-    ```bash
-    php artisan view:clear
-    php artisan config:clear
-    ```
+</Step>
 
-1. Run the database migrations:
+<Step>
+### Set Permissions
 
-    ```bash
-    php artisan migrate --seed --force
-    ```
+```bash
+chmod -R 755 storage/* bootstrap/cache
+```
 
-1. Set ownership to the web server user:
+</Step>
 
-    ```bash
-    chown -R www-data:www-data /var/www/pterodactyl/*
-    ```
+<Step>
+### Install PHP Dependencies
 
-1. Restart the queue worker:
+```bash
+composer install --no-dev --optimize-autoloader
+```
 
-    ```bash
-    php artisan queue:restart
-    ```
+</Step>
 
-1. Build the frontend assets:
+<Step>
+### Clear Cached Views and Config
 
-    ```bash
-    npm install -g corepack@latest
-    corepack enable pnpm
-    pnpm i --frozen-lockfile && pnpm run ship
-    chmod -R 755 storage/* bootstrap/cache/
-   ```
+```bash
+php artisan view:clear
+php artisan config:clear
+```
 
-1. Bring the panel back online:
+</Step>
 
-    ```bash
-    php artisan up
-    ```
+<Step>
+### Run Database Migrations
+
+```bash
+php artisan migrate --seed --force
+```
+
+</Step>
+
+<Step>
+### Set Ownership
+
+```bash
+chown -R www-data:www-data /var/www/pterodactyl/*
+```
+
+</Step>
+
+<Step>
+### Restart Queue Worker
+
+```bash
+php artisan queue:restart
+```
+
+</Step>
+
+<Step>
+### Build Frontend Assets
+
+```bash
+npm install -g corepack@latest
+corepack enable pnpm
+pnpm i --frozen-lockfile && pnpm run ship
+chmod -R 755 storage/* bootstrap/cache/
+```
+
+</Step>
+
+<Step>
+### Bring Panel Back Online
+
+```bash
+php artisan up
+```
+
+</Step>
+</Steps>
 
 🎉 **Boom! Your panel is now migrated to Pyrodactyl!**
