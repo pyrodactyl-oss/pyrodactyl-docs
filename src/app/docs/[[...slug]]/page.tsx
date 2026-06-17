@@ -6,6 +6,7 @@ import { Card, Cards } from 'fumadocs-ui/components/card';
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 import defaultMdxComponents, { createRelativeLink } from 'fumadocs-ui/mdx';
 import { LatestRelease } from '@/components/LatestRelease';
+import { Icon } from '@/components/Icon';
 import { source } from '@/lib/source';
 
 interface PageParams {
@@ -46,7 +47,8 @@ export default async function Page({ params }: PageParams) {
             Cards,
             Step,
             Steps,
-            LatestRelease
+            LatestRelease,
+            Icon
           }}
         />
       </DocsBody>

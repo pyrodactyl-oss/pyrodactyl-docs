@@ -10,6 +10,8 @@ description: Troubleshooting Curl Failures in Docker
 
 # Troubleshooting
 
+<Callout type="info">Common domain-related issues and their solutions.</Callout>
+
 Most domain connection failures are caused by missing or misconfigured DNS servers for Docker. Fortunately, this is usually a quick fix.
 
 ## Check Docker DNS Configuration
@@ -34,4 +36,3 @@ docker restart <panel-container-name>
 ```
 
 Then, try your operation again. This should resolve most DNS-related connection failures.
-

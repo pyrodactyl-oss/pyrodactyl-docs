@@ -1,27 +1,69 @@
 ---
 title: Elytra Documentation
 description: A now-unmaintained fork of Pterodactyl Wings, originally developed by PyroHost.
+icon: elytra
 ---
 
 <Callout type="error">
-Elytra is **no longer being updated**. It was a vibe-coded fork of Wings by PyroHost that ended up being worse than the original.
-We recommend using upstream [Pterodactyl Wings](https://pterodactyl.io/wings/1.0/installing.html) instead.
+  Elytra is **no longer being updated**. It was a vibe-coded fork of Wings by PyroHost that ended up being worse than the original.
+  We recommend using upstream [Pterodactyl Wings](https://pterodactyl.io/wings/1.0/installing.html) instead.
 </Callout>
-
-Key Features and Changes:
-
-- Deduplicated Backups
-<Callout type="info" title="What are Deduplicated Backups?"> 
-  Deduplication is the procecss of only storing a piece of data once.
-  In the same way git works, we use an open source program called [Rustic](https://github.com/rustic-rs/rustic)
-  to ensure your backups are both Encrypted, and as small as possible, all while still maintaining their integrity.
-
-</Callout>
-
-
----
 
 <Callout type="info">
-Looking for a maintained Wings alternative?
-Check out the upstream [Pterodactyl Wings](https://pterodactyl.io/wings/1.0/installing.html) docs.
+    Elytra is a daemon that runs on game servers and communicates with your Pyrodactyl Panel to manage server instances.
 </Callout>
+
+## Features
+
+<div className="not-prose grid gap-4 md:grid-cols-2 my-6">
+
+<div className="rounded-lg border border-white/10 bg-white/[0.02] p-5">
+  <div className="flex items-center gap-2 mb-2">
+    <Icon name="file-archive" className="size-5 text-blue-400" />
+    <span className="font-semibold text-sm text-white">Deduplicated Backups</span>
+  </div>
+  <div className="text-sm text-white/60">
+    Uses <a href="https://github.com/rustic-rs/rustic" className="text-blue-400 hover:text-blue-300">Rustic</a> to store only unique data once — backups are encrypted, small, and integrity-verified, similar to how git works.
+  </div>
+</div>
+
+<div className="rounded-lg border border-white/10 bg-white/[0.02] p-5">
+  <div className="flex items-center gap-2 mb-2">
+    <Icon name="server" className="size-5 text-green-400" />
+    <span className="font-semibold text-sm text-white">Server Management</span>
+  </div>
+  <div className="text-sm text-white/60">
+    Manages game server containers via Docker, handling start, stop, restart, and reinstall operations.
+  </div>
+</div>
+
+<div className="rounded-lg border border-white/10 bg-white/[0.02] p-5">
+  <div className="flex items-center gap-2 mb-2">
+    <Icon name="shield" className="size-5 text-yellow-400" />
+    <span className="font-semibold text-sm text-white">SSL Support</span>
+  </div>
+  <div className="text-sm text-white/60">
+    Optional Let's Encrypt integration for secure panel-to-node communication via SSL certificates.
+  </div>
+</div>
+
+<div className="rounded-lg border border-white/10 bg-white/[0.02] p-5">
+  <div className="flex items-center gap-2 mb-2">
+    <Icon name="monitor" className="size-5 text-purple-400" />
+    <span className="font-semibold text-sm text-white">Cross-Platform</span>
+  </div>
+  <div className="text-sm text-white/60">
+    Supports amd64 and arm64 architectures across Fedora, Ubuntu, Debian, Rocky Linux, RHEL, and Arch.
+  </div>
+</div>
+
+</div>
+
+<hr className="my-8 border-white/10" />
+
+<div className="not-prose flex items-center gap-3 rounded-lg border border-blue-500/20 bg-blue-500/5 px-5 py-4">
+  <Icon name="arrow-up-right" className="size-5 shrink-0 text-blue-400" />
+  <div className="text-sm text-white/70">
+    Looking for a maintained Elytra alternative? Check out the original upstream <a href="https://pterodactyl.io/wings/1.0/installing.html" className="text-blue-400 hover:text-blue-300 font-medium">Pterodactyl Wings</a> documentation.
+  </div>
+</div>
