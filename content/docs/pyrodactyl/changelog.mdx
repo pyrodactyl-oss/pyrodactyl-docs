@@ -3,35 +3,45 @@ title: Changelog
 description: Pyrodactyl Changelog
 ---
 
+This page tracks new features, fixes, and changes for each version of the panel starting with `v4.0.0`. This project follows [Semantic Versioning](http://semver.org) guidelines.
 
-This file is a running track of new features and fixes to each version of the panel released starting with `v4.0.0`.
+---
 
-This project follows [Semantic Versioning](http://semver.org) guidelines.
+<LatestRelease version="V5.0.3" date="February 20, 2026">
 
-## V5.0.3 - 2/20/26
 ### Fixed
 - Unable to edit startup command when using `wings` Daemon [#50](https://github.com/pyrodactyl-oss/pyrodactyl/pull/50)
 
-## V5.0.2 - 2/20/26
+</LatestRelease>
+
+## V5.0.2
+<span className="text-sm text-white/40">February 20, 2026</span>
+
 ### Fixed
 - Restoring a backup on Wings was impossible due to Frontend and Backend error
 
+---
 
-## V5.0.1 - 02/16/26
+## V5.0.1
+<span className="text-sm text-white/40">February 16, 2026</span>
+
 ### Fixed
 Creating nodes via the api not expecting new fields for `daemonDisk` and `daemonType`
 
 ### Changed
-* better readme by @imeesa in [#46](https://github.com/pyrodactyl-oss/pyrodactyl/pull/46)
-* Update DB_USERNAME from 'pterodactyl' to 'pyrodactyl' by @ThatBritishOne in [#47](https://github.com/pyrodactyl-oss/pyrodactyl/pull/47)
-* .github/workflows: Migrate workflows to Blacksmith runners by @blacksmith-sh[bot] in [#48](https://github.com/pyrodactyl-oss/pyrodactyl/pull/48)
-* fixed gitignore to not ignore .env.example by @Tyrthurey in [#49](https://github.com/pyrodactyl-oss/pyrodactyl/pull/49)
+- better readme by @imeesa in [#46](https://github.com/pyrodactyl-oss/pyrodactyl/pull/46)
+- Update DB_USERNAME from 'pterodactyl' to 'pyrodactyl' by @ThatBritishOne in [#47](https://github.com/pyrodactyl-oss/pyrodactyl/pull/47)
+- .github/workflows: Migrate workflows to Blacksmith runners by @blacksmith-sh[bot] in [#48](https://github.com/pyrodactyl-oss/pyrodactyl/pull/48)
+- fixed gitignore to not ignore .env.example by @Tyrthurey in [#49](https://github.com/pyrodactyl-oss/pyrodactyl/pull/49)
 
 ### New Contributors
-* @ThatBritishOne made their first contribution in [#47](https://github.com/pyrodactyl-oss/pyrodactyl/pull/47)
+- @ThatBritishOne made their first contribution in [#47](https://github.com/pyrodactyl-oss/pyrodactyl/pull/47)
 
+---
 
-## V5.0.0 - 01/25/26
+## V5.0.0
+<span className="text-sm text-white/40">January 25, 2026</span>
+
 Thank you for using Pyrodactyl! This release brings us closer to full stability, combining Pterodactyl's Stability and Support with Pyrodactyl's modern more attractive Interface.
 
 <Callout type="warn">
@@ -42,7 +52,6 @@ Thank you for using Pyrodactyl! This release brings us closer to full stability,
 
 ### Highlight: Full Pterodactyl Wings Support  
 Backups are now per-node, allowing mixed local/S3 configurations across servers.
-
 
 ### Added
 - Pterodactyl Wings support  
@@ -62,25 +71,29 @@ Backups are now per-node, allowing mixed local/S3 configurations across servers.
 - Allocation deletion when no limit set (commit b695ef29)  
 - Non-themed popup on port allocation deletion (#42)
 
-**Full Changelog**: https://github.com/pyrodactyl-oss/pyrodactyl/compare/v4.5.2...v5.0.0
+<span className="text-sm text-white/50">Full Changelog: <a href="https://github.com/pyrodactyl-oss/pyrodactyl/compare/v4.5.2...v5.0.0">v4.5.2...v5.0.0</a></span>
 
-## v4.5.2 - 12/23/25
+---
+
+## v4.5.2
+<span className="text-sm text-white/40">December 23, 2025</span>
 
 ### Changed
 - Changed itzg java 25 image for custom built image at [pyrodactyl-oss/images](https://github.com/pyrodactyl-oss/images/pkgs/container/images/621911322?tag=java_25)
 
+---
 
-## v4.5.1 - 12/21/25
+## v4.5.1
+<span className="text-sm text-white/40">December 21, 2025</span>
 
 ### Pull Requests
-* File upload dialog fix by @en0tuk in https://github.com/pyrodactyl-oss/pyrodactyl/pull/6
-* chore(deps): bump turbo from 2.5.5 to 2.6.1 by @dependabot[bot] in https://github.com/pyrodactyl-oss/pyrodactyl/pull/5
-* chore(deps): bump @radix-ui/react-dropdown-menu from 2.1.15 to 2.1.16 by @dependabot[bot] in https://github.com/pyrodactyl-oss/pyrodactyl/pull/4
-* fix confusing behavior with nginx config by @imeesa in https://github.com/pyrodactyl-oss/pyrodactyl/pull/8
-* feat: added Vintage Story support with new subdomain feature and egg  by @NobleSkye in https://github.com/pyrodactyl-oss/pyrodactyl/pull/11
-* Update java to 25 by @NobleSkye in https://github.com/pyrodactyl-oss/pyrodactyl/pull/22
-* fix: update configuration directory path (shows elytra path  by @NobleSkye in https://github.com/pyrodactyl-oss/pyrodactyl/pull/20
-
+- File upload dialog fix by @en0tuk in https://github.com/pyrodactyl-oss/pyrodactyl/pull/6
+- chore(deps): bump turbo from 2.5.5 to 2.6.1 by @dependabot[bot] in https://github.com/pyrodactyl-oss/pyrodactyl/pull/5
+- chore(deps): bump @radix-ui/react-dropdown-menu from 2.1.15 to 2.1.16 by @dependabot[bot] in https://github.com/pyrodactyl-oss/pyrodactyl/pull/4
+- fix confusing behavior with nginx config by @imeesa in https://github.com/pyrodactyl-oss/pyrodactyl/pull/8
+- feat: added Vintage Story support with new subdomain feature and egg by @NobleSkye in https://github.com/pyrodactyl-oss/pyrodactyl/pull/11
+- Update java to 25 by @NobleSkye in https://github.com/pyrodactyl-oss/pyrodactyl/pull/22
+- fix: update configuration directory path (shows elytra path by @NobleSkye in https://github.com/pyrodactyl-oss/pyrodactyl/pull/20
 
 ### Changed
 - Updated Laravel to V12
@@ -99,46 +112,49 @@ Backups are now per-node, allowing mixed local/S3 configurations across servers.
 - Fix file Upload Dialog: #6
 
 ### New Contributors
-* @en0tuk made their first contribution in https://github.com/pyrodactyl-oss/pyrodactyl/pull/6
-* @dependabot[bot] made their first contribution in https://github.com/pyrodactyl-oss/pyrodactyl/pull/5
-* @imeesa made their first contribution in https://github.com/pyrodactyl-oss/pyrodactyl/pull/8
-* @NobleSkye made their first contribution in https://github.com/pyrodactyl-oss/pyrodactyl/pull/11
+- @en0tuk made their first contribution in https://github.com/pyrodactyl-oss/pyrodactyl/pull/6
+- @dependabot[bot] made their first contribution in https://github.com/pyrodactyl-oss/pyrodactyl/pull/5
+- @imeesa made their first contribution in https://github.com/pyrodactyl-oss/pyrodactyl/pull/8
+- @NobleSkye made their first contribution in https://github.com/pyrodactyl-oss/pyrodactyl/pull/11
 
+<span className="text-sm text-white/50">Full Changelog: <a href="https://github.com/pyrodactyl-oss/pyrodactyl/commits/v4.5.1">v4.5.1</a></span>
 
-**Full Changelog**: https://github.com/pyrodactyl-oss/pyrodactyl/commits/v4.5.1
+---
 
-
-## v4.5.0 - 10/28/25
+## v4.5.0
+<span className="text-sm text-white/40">October 28, 2025</span>
 
 ### Changed
-* fix readme mistakes by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/342
-* feat: bypass reinstall delay by holding shift by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/346
-* [DRAFT] Client panel improvements by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/350
-* fix: file manager (why did users only see the bug post-pr) by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/351
-* fix: login doesn't work on first launch by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/355
-* readd server filters on the main page and mark zone id as requ... by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/358
-* feature: deduplicated backups using elytra + backup storage quota + nullable server limits for unlimited by @ChecksumDev in https://github.com/pyrohost/pyrodactyl/pull/359
-* fix: login fails on first launch again? seems to be a different log that wasn't used before. by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/360
-* fix: async backups. awesoooome by @naterfute in https://github.com/pyrohost/pyrodactyl/pull/370
-* fix: add file cap so big directories don't just error by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/374
-* fix: enhance placeholder matching for properties parser in EggConfigu… by @JellisyWoes in https://github.com/pyrohost/pyrodactyl/pull/376
-* feat: import eggs from URLs or URIs whatever by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/361
-* Add Hetzner as DNS provider by @zHappySnake in https://github.com/pyrohost/pyrodactyl/pull/383
-* cap the desc to be at max of 100 chars by @NobleSkye in https://github.com/pyrohost/pyrodactyl/pull/386
-* Docker & native checks in bugs & pyroignore file instead of pteroignore by @NobleSkye in https://github.com/pyrohost/pyrodactyl/pull/382
-* Revise installation type labels in bug report template by @NobleSkye in https://github.com/pyrohost/pyrodactyl/pull/388
-* Fix comment typo for DB_PASSWORD in docker-compose by @terrencetingleberry in https://github.com/pyrohost/pyrodactyl/pull/397
+- fix readme mistakes by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/342
+- feat: bypass reinstall delay by holding shift by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/346
+- [DRAFT] Client panel improvements by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/350
+- fix: file manager (why did users only see the bug post-pr) by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/351
+- fix: login doesn't work on first launch by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/355
+- readd server filters on the main page and mark zone id as requ... by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/358
+- feature: deduplicated backups using elytra + backup storage quota + nullable server limits for unlimited by @ChecksumDev in https://github.com/pyrohost/pyrodactyl/pull/359
+- fix: login fails on first launch again? seems to be a different log that wasn't used before. by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/360
+- fix: async backups. awesoooome by @naterfute in https://github.com/pyrohost/pyrodactyl/pull/370
+- fix: add file cap so big directories don't just error by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/374
+- fix: enhance placeholder matching for properties parser in EggConfigu… by @JellisyWoes in https://github.com/pyrohost/pyrodactyl/pull/376
+- feat: import eggs from URLs or URIs whatever by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/361
+- Add Hetzner as DNS provider by @zHappySnake in https://github.com/pyrohost/pyrodactyl/pull/383
+- cap the desc to be at max of 100 chars by @NobleSkye in https://github.com/pyrohost/pyrodactyl/pull/386
+- Docker & native checks in bugs & pyroignore file instead of pteroignore by @NobleSkye in https://github.com/pyrohost/pyrodactyl/pull/382
+- Revise installation type labels in bug report template by @NobleSkye in https://github.com/pyrohost/pyrodactyl/pull/388
+- Fix comment typo for DB_PASSWORD in docker-compose by @terrencetingleberry in https://github.com/pyrohost/pyrodactyl/pull/397
 
 ### New Contributors
-* @JellisyWoes made their first contribution in https://github.com/pyrohost/pyrodactyl/pull/376
-* @zHappySnake made their first contribution in https://github.com/pyrohost/pyrodactyl/pull/383
-* @NobleSkye made their first contribution in https://github.com/pyrohost/pyrodactyl/pull/386
-* @terrencetingleberry made their first contribution in https://github.com/pyrohost/pyrodactyl/pull/397
+- @JellisyWoes made their first contribution in https://github.com/pyrohost/pyrodactyl/pull/376
+- @zHappySnake made their first contribution in https://github.com/pyrohost/pyrodactyl/pull/383
+- @NobleSkye made their first contribution in https://github.com/pyrohost/pyrodactyl/pull/386
+- @terrencetingleberry made their first contribution in https://github.com/pyrohost/pyrodactyl/pull/397
 
-**Full Changelog**: https://github.com/pyrohost/pyrodactyl/compare/v4.4.0...v4.5.0
+<span className="text-sm text-white/50">Full Changelog: <a href="https://github.com/pyrohost/pyrodactyl/compare/v4.4.0...v4.5.0">v4.4.0...v4.5.0</a></span>
 
+---
 
-## V4.4.0 - 10/24/25
+## V4.4.0
+<span className="text-sm text-white/40">October 24, 2025</span>
 
 ### Added
 - DNS Support for subdomains such as servers.pyrodactyl.dev [#396](https://github.com/pyrohost/pyrodactyl/issues/396)
@@ -147,38 +163,43 @@ Backups are now per-node, allowing mixed local/S3 configurations across servers.
 ### Changed
 - Allow users to exist without last name [#272](https://github.com/pyrohost/pyrodactyl/issues/272)
 
+<span className="text-sm text-white/50">Full Changelog: <a href="https://github.com/pyrohost/pyrodactyl/compare/v4.3.0...v4.4.0">v4.3.0...v4.4.0</a></span>
 
-**Full Changelog**: https://github.com/pyrohost/pyrodactyl/compare/v4.3.0...v4.4.0
+---
 
-
-## V4.3.0 - 10/24/25
+## V4.3.0
+<span className="text-sm text-white/40">October 24, 2025</span>
 
 ### Added
 - Hetnzer DNS added for subdomains
 
+---
 
-## V4.1.0-4.2.0
+## V4.1.0 — V4.2.0
+<span className="text-sm text-white/40">2025</span>
 
-Idk what happend, but I have no idea what changed here.
-Probably fixes to Elytra Backups and stuff.
+Idk what happend, but I have no idea what changed here. Probably fixes to Elytra Backups and stuff.
 
+---
 
-## V4.0.0 - 7/07/25
+## V4.0.0
+<span className="text-sm text-white/40">July 7, 2025</span>
+
 <Callout type="info">
 v4.0.0 did not make any breaking changes. bumped to 4.0.0 from 3.0.0 to give
 fresh starting point from dns_manager addon
 </Callout>
 
 ### Added
-  - DNS Manager
-  - Cloudflare DNS manager for subdomains
-  - **Egg Features:** New Service Egg Variables `subdomain_minecraft` to support Minecraft srv records
-  - **Egg Features:** New Service Egg Variables `subdomain_factorio` to support Factorio srv records
-  - **Egg Features:** New Service Egg Variables `subdomain_rust` to support Rust srv records
-  - Changed `.pteroignore` to `.pyroignore`
+- DNS Manager
+- Cloudflare DNS manager for subdomains
+- **Egg Features:** New Service Egg Variables `subdomain_minecraft` to support Minecraft srv records
+- **Egg Features:** New Service Egg Variables `subdomain_factorio` to support Factorio srv records
+- **Egg Features:** New Service Egg Variables `subdomain_rust` to support Rust srv records
+- Changed `.pteroignore` to `.pyroignore`
 
 ### Fixed
-  - Mobile Sidebar turned into navbar to make it work better and be more navigatable
-  - feat: bypass reinstall delay by holding shift by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/346
-  - Client panel improvements by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/350
-  - Backups showing more text then can display (max 100chars)
+- Mobile Sidebar turned into navbar to make it work better and be more navigatable
+- feat: bypass reinstall delay by holding shift by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/346
+- Client panel improvements by @imeesa in https://github.com/pyrohost/pyrodactyl/pull/350
+- Backups showing more text then can display (max 100chars)

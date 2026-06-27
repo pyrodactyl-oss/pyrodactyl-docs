@@ -3,33 +3,47 @@ title: Installing Elytra (Native)
 description: How to install and setup Elytra on Linux
 ---
 
+<Callout type="error">
+  Elytra is **no longer maintained**. This guide is kept for archival purposes.
+  We recommend using [Pterodactyl Wings](https://pterodactyl.io/wings/1.0/installing.html) instead.
+</Callout>
+<Callout type="info">
+  This guide covers installing Elytra natively on supported Linux distributions.
+</Callout>
 
 ## Supported Operating Systems
 
 <Callout type='info'>
-There is a very high chance it will work on more than these. These are the ones that are
-known working and officially supported though.
+  There is a very high chance it will work on more than these. These are the ones that are known working and officially supported.
 </Callout>
 
-|OS|Version|
-|---|---|
-|Fedora| 40-42|
-|Ubuntu| 24.04|
-|Debian| 13|
-|Rocky | 10|
-|RHEL | 10|
-|Arch| Rolling|
+| OS      | Version       |
+|---------|---------------|
+| Fedora  | 40–42         |
+| Ubuntu  | 24.04         |
+| Debian  | 13            |
+| Rocky   | 10            |
+| RHEL    | 10            |
+| Arch    | Rolling       |
 
 ## Prerequisites
 
+Before installing, ensure you have the following:
+
 - curl
 - tar
-- docker
-- [rustic](https://github.com/rustic-rs/rustic/releases/latest)
-- [certbot](https://github.com/certbot/certbot) (Optional if using SSL)
+- Docker Engine
+- [Rustic](https://github.com/rustic-rs/rustic/releases/latest) (recommended for deduplicated backups)
+- [Certbot](https://github.com/certbot/certbot) (only if using SSL)
 
+---
 
-### Installing Prequisites
+<Steps>
+<Step>
+### Install Docker
+
+<Icon name="docker" className="inline size-4 mr-1.5 text-blue-400" />
+Select your OS below for the appropriate commands:
 
 <Tabs items={["Fedora", "Ubuntu", "Debian", "Rocky", "RHEL", "Arch"]}>
 <Tab value="Fedora">
@@ -50,7 +64,6 @@ sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-# Add the repository to Apt sources:
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
@@ -68,7 +81,6 @@ sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-# Add the repository to Apt sources:
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
@@ -103,73 +115,76 @@ sudo pacman -S curl tar docker
 </Tab>
 </Tabs>
 
-Now, enable the docker engine service to start on boot
+Enable Docker to start on boot:
+
 ```bash
 sudo systemctl enable --now docker
 ```
 
-## Installing Elytra
-Now we need to install elytra. This will be the program communicating with your Pyrodactyl Panel.
+</Step>
 
-### Download Executable
+<Step>
+### Download the Elytra Executable
 
-<Tabs items={["amd64", "arm64"]}>
-<Tab value="amd64">
-  ```bash
-    curl -L -o /usr/local/bin/elytra https://github.com/pyrohost/elytra/releases/latest/download/elytra_linux_amd64 
-    sudo chmod u+x /usr/local/bin/elytra
-  ```
-</Tab>
-<Tab value="arm64">
-  ```bash
-    curl -L -o /usr/local/bin/elytra https://github.com/pyrohost/elytra/releases/latest/download/elytra_linux_arm64 
-    sudo chmod u+x /usr/local/bin/elytra
-  ```
-</Tab>
-</Tabs>
-
-
-### Installing Rustic
-<Callout type='error'>
-Rustic is not required to run Elytra. You do however lose out on Deduplicated and encrypted backups.
-The Pyrodactyl team heavily recommends you install it.
-</Callout>
-
-To install rustic, you have the choice of building from source, or downloading the latest pre-built binary.
-The quickest way is to use the pre-built binaries.
+Choose the binary for your system architecture:
 
 <Tabs items={["amd64", "arm64"]}>
 <Tab value="amd64">
 ```bash
-  mkdir -p /tmp/rustic-install
-	curl -L https://github.com/rustic-rs/rustic/releases/download/v0.10.0/rustic-v0.10.0-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /tmp/rustic-install
-  sudo mv /tmp/rustic-install/rustic /usr/local/bin/
+curl -L -o /usr/local/bin/elytra https://github.com/pyrohost/elytra/releases/latest/download/elytra_linux_amd64
+sudo chmod u+x /usr/local/bin/elytra
 ```
 </Tab>
 <Tab value="arm64">
 ```bash
-  mkdir -p /tmp/rustic-install
-	curl -L https://github.com/rustic-rs/rustic/releases/download/v0.10.0/rustic-v0.10.0-aarch64-unknown-linux-musl.tar.gz | tar -xz -C /tmp/rustic-install
-  sudo mv /tmp/rustic-install/rustic /usr/local/bin/
+curl -L -o /usr/local/bin/elytra https://github.com/pyrohost/elytra/releases/latest/download/elytra_linux_arm64
+sudo chmod u+x /usr/local/bin/elytra
 ```
 </Tab>
 </Tabs>
+</Step>
 
-### Creating SSL Certificates
+<Step>
+### Install Rustic (Recommended)
+
 <Callout type='error'>
-Using SSL is not required to run Elytra, but if you checked ``Use SSL Connection`` when adding the node to your panel, you will need to do this step to enable SSL.
-It is recommended that you do this step to ensure connection security between the panel and the node.
+  Rustic is not required to run Elytra. You do however lose out on deduplicated and encrypted backups. The Pyrodactyl team heavily recommends you install it.
 </Callout>
 
-Before continuing to create an SSL certificate, ensure that you have created an A Record for the FDQN you wish to use for the node, pointed to the IP of the machine on which the node will be running.
+To install rustic, you have the choice of building from source, or downloading the latest pre-built binary. The quickest way is to use the pre-built binaries.
+
+<Tabs items={["amd64", "arm64"]}>
+<Tab value="amd64">
+```bash
+mkdir -p /tmp/rustic-install
+curl -L https://github.com/rustic-rs/rustic/releases/download/v0.10.0/rustic-v0.10.0-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /tmp/rustic-install
+sudo mv /tmp/rustic-install/rustic /usr/local/bin/
+```
+</Tab>
+<Tab value="arm64">
+```bash
+mkdir -p /tmp/rustic-install
+curl -L https://github.com/rustic-rs/rustic/releases/download/v0.10.0/rustic-v0.10.0-aarch64-unknown-linux-musl.tar.gz | tar -xz -C /tmp/rustic-install
+sudo mv /tmp/rustic-install/rustic /usr/local/bin/
+```
+</Tab>
+</Tabs>
+</Step>
+
+<Step>
+### Create SSL Certificates (Optional)
+
+<Callout type='error'>
+  Using SSL is not required to run Elytra, but if you checked **Use SSL Connection** when adding the node to your panel, you will need to do this step. It is recommended for connection security.
+</Callout>
+
+Before creating an SSL certificate, ensure you have created an A Record for the FQDN you wish to use for the node, pointed to the IP of the machine on which the node will run.
 
 <Tabs items={["Fedora", "Ubuntu", "Debian", "Rocky", "RHEL", "Arch"]}>
 <Tab value="Fedora">
 ```bash
 sudo dnf update -y
 sudo dnf install certbot -y
-
-# Obtain a certificate (Replace 'node.pyrodactyl.dev' with your own FDQN)
 sudo certbot certonly --standalone -d node.pyrodactyl.dev
 ```
 </Tab>
@@ -177,8 +192,6 @@ sudo certbot certonly --standalone -d node.pyrodactyl.dev
 ```bash
 sudo apt update
 sudo apt install certbot -y
-
-# Obtain a certificate (Replace 'node.pyrodactyl.dev' with your own FDQN)
 sudo certbot certonly --standalone -d node.pyrodactyl.dev
 ```
 </Tab>
@@ -186,8 +199,6 @@ sudo certbot certonly --standalone -d node.pyrodactyl.dev
 ```bash
 sudo apt update
 sudo apt install certbot -y
-
-# Obtain a certificate (Replace 'node.pyrodactyl.dev' with your own FDQN)
 sudo certbot certonly --standalone -d node.pyrodactyl.dev
 ```
 </Tab>
@@ -195,8 +206,6 @@ sudo certbot certonly --standalone -d node.pyrodactyl.dev
 ```bash
 sudo dnf install epel-release -y
 sudo dnf install certbot -y
-
-# Obtain a certificate (Replace 'node.pyrodactyl.dev' with your own FDQN)
 sudo certbot certonly --standalone -d node.pyrodactyl.dev
 ```
 </Tab>
@@ -204,8 +213,6 @@ sudo certbot certonly --standalone -d node.pyrodactyl.dev
 ```bash
 sudo dnf install epel-release -y
 sudo dnf install certbot -y
-
-# Obtain a certificate (Replace 'node.pyrodactyl.dev' with your own FDQN)
 sudo certbot certonly --standalone -d node.pyrodactyl.dev
 ```
 </Tab>
@@ -213,21 +220,22 @@ sudo certbot certonly --standalone -d node.pyrodactyl.dev
 ```bash
 sudo pacman -Syu
 sudo pacman -S certbot
-
-# Obtain a certificate (Replace 'node.pyrodactyl.dev' with your own FDQN)
 sudo certbot certonly --standalone -d node.pyrodactyl.dev
 ```
 </Tab>
 </Tabs>
+</Step>
 
+<Step>
+### Create the Systemd Service
 
-
-### Setting up Systemd Task for Elytra
+Create the service file:
 
 ```bash
 sudo nano /etc/systemd/system/elytra.service
 ```
-and paste
+
+Paste the following:
 
 ```systemd
 [Unit]
@@ -251,144 +259,128 @@ RestartSec=5s
 WantedBy=multi-user.target
 ```
 
-Now save and exit that file.
+Save and exit the file.
+</Step>
 
+<Step>
+### Create a Node in the Panel
 
-## Setup Elytra
-To setup Elytra, you must first get your config. This is done by first, adding a new node in your Pyrodactyl Panel.
+Navigate to `https://&lt;Your-Domain.com&gt;/admin` in your browser.
 
-### Setup your Elytra
-  First thing you need to do, is to get to your admin panel.  
-  This is located at `https://<Your-Domain.com>/admin`
+1. Click **Locations** in the sidebar, then **Create New**. Name it whatever you like.
+2. Click **Nodes** in the sidebar, then **Create New**.
 
-### Setting up Your Location
+Fill in the required fields:
 
-  after visiting this page, you should see a menu on the left side of the screen called `Locations`
-  Click on that to make your first location
+<div className="not-prose my-4 space-y-3">
 
+<div className="rounded-lg border border-white/10 bg-white/[0.02] p-4">
+  <div className="flex items-center gap-2 mb-1">
+    <Icon name="tag" className="size-4 text-blue-400" />
+    <span className="font-medium text-sm text-white">Name</span>
+  </div>
+  <p className="text-sm text-white/50">Give it a unique name that you can identify this node by.</p>
+</div>
 
-![Location View](/img/SearchForLocations.png)
+<div className="rounded-lg border border-white/10 bg-white/[0.02] p-4">
+  <div className="flex items-center gap-2 mb-1">
+    <Icon name="globe" className="size-4 text-green-400" />
+    <span className="font-medium text-sm text-white">Public FQDN</span>
+  </div>
+  <Callout type="info">This address should be the address that people will use when connecting to your node, not panel to node.</Callout>
+  <p className="text-sm text-white/50 mt-2">If your panel is HTTPS-secured, it has to be a domain name. If HTTP, it has to be an IP address.</p>
+</div>
 
+<div className="rounded-lg border border-white/10 bg-white/[0.02] p-4">
+  <div className="flex items-center gap-2 mb-1">
+    <Icon name="memory-stick" className="size-4 text-yellow-400" />
+    <span className="font-medium text-sm text-white">Total Memory</span>
+  </div>
+  <p className="text-sm text-white/50">How much memory your server has.</p>
+  <Callout type='warn'>This is not a hard value. The panel will only get mad at you, not stop you!</Callout>
+</div>
 
-Once on this page, click "Create New" in the top right corner
-Name it whatever you want. This name doesn't matter that much.
+<div className="rounded-lg border border-white/10 bg-white/[0.02] p-4">
+  <div className="flex items-center gap-2 mb-1">
+    <Icon name="hard-drive" className="size-4 text-purple-400" />
+    <span className="font-medium text-sm text-white">Total Disk Space</span>
+  </div>
+  <p className="text-sm text-white/50">How much disk space you have available.</p>
+  <Callout type='warn'>This is not a hard value. The panel will only get mad at you, not stop you!</Callout>
+</div>
 
-### Create Your Node
+</div>
 
-Once your Location is created. Click on Nodes right beneath the locations button.
+Click **Create Node**. Once it loads, proceed to the Configuration tab.
+</Step>
 
-![Node View](/img/SearchForNodes.png)
+<Step>
+### Configure and Start Elytra
 
-
-Click "Create New"
-
-and you will be prompted with a screen with lots of buttons and input fields.
-The only values you will need to change are 
-
-- Name  
-Give it a unique name that you can identify this node by
-
-- Public FQDN
-<Callout type="info">This address should be The address that people will use when connecting to your node.
-not panel to node</Callout>
-If your panel is https secured is has to be a domain name, and vise versa, if it's http, it has to be
-an ip address.
-
-- Total Memory  
-How much memory your Server has
-<Callout type='warn'> This is not a hard value. The panel will only get mad at you, not stop you!</Callout>
-
-- Memory Over-Allocation  
-How much percent over your Total Memory you want to show up as "Available"
-
-- Total Disk Space  
-How much disk space you have to use
-<Callout type='warn'> This is not a hard value. The panel will only get mad at you, not stop you!</Callout>
-
-- Disk Over-Allocation
-How much percent over your Total Disk you want to show up as "Available"  
-  <Callout type='warn'>
-    If your going to run Elytra behind a proxy Set Behind proxy to true
-  </Callout>
-
-
-Click Create on your node, and it might take a second. But then it should load into the nodes page.
-
----
-
-### Configuring Elytra
-
-Click the `Configuration` Button located at the top of the page
-
-![Elytra Config](/img/ElytraConfig.png)
-
-
-Rather than anything complex, you can press the auto deploy button on the side of the page,
-and copy the command that pops out which should look a little something like this
+On the node page, click the **Configuration** tab, then use the auto-deploy button to generate the setup command. It will look something like:
 
 ```bash
 cd /etc/elytra && sudo elytra configure --panel-url http://panel.pyrodactyl.dev --token pyro_XWsMcVoJkoMCWn9COtSsUTlbRSevBbLJ5HEMKZQjnN5 --node 1
 ```
 
+Run the command to configure Elytra.
 
-### Test your service.
-
-If you want to run Elytra just to test it. You can do that by running this command anywhere on your host
-
-```bash
-  elytra
-```
-
-Once you've got your stuff working. your free to go
-
----
-
-
-### Enable Elytra Service
+To test that everything works, run Elytra directly:
 
 ```bash
-  sudo systemctl enable --now elytra
+elytra
 ```
+
+Once confirmed working, enable the service to start on boot:
+
+```bash
+sudo systemctl enable --now elytra
+```
+
+</Step>
+</Steps>
 
 ## Troubleshooting
 
-If Elytra refuses to start because it cannot create the `pyrodactyl` system user (you will see logs mentioning `failed to create pyrodactyl system user error=exit status 4`), you can manually provision the account. Confirm that the user is missing before running the command above (e.g., `sudo getent passwd pyrodactyl`).
+### Failed to Create System User
 
-<Tabs items={"Fedora,Ubuntu,Debian,Rocky,RHEL,Arch".split(',')}>
+If Elytra refuses to start with `failed to create pyrodactyl system user error=exit status 4`, manually create the user:
+
+<Tabs items={["Fedora", "Ubuntu", "Debian", "Rocky", "RHEL", "Arch"]}>
 <Tab value="Fedora">
-```
+```bash
 sudo getent passwd pyrodactyl || sudo useradd --system --create-home --shell /usr/sbin/nologin --comment "Elytra/Pterodactyl system user" pyrodactyl
 ```
 Retry with `sudo` if you are prompted for permissions again; the service runs as root before dropping privileges.
 </Tab>
 <Tab value="Ubuntu">
-```
+```bash
 sudo getent passwd pyrodactyl || sudo useradd --system --create-home --shell /usr/sbin/nologin --comment "Elytra/Pterodactyl system user" pyrodactyl
 ```
 Ubuntu keeps `nologin` under `/usr/sbin`, matching what the service unit expects.
 </Tab>
 <Tab value="Debian">
-```
+```bash
 sudo getent passwd pyrodactyl || sudo useradd --system --create-home --shell /usr/sbin/nologin --comment "Elytra/Pterodactyl system user" pyrodactyl
 ```
 Use the same path as Ubuntu since Debian shares the same filesystem layout for administrative binaries.
 </Tab>
 <Tab value="Rocky">
-```
+```bash
 sudo getent passwd pyrodactyl || sudo useradd --system --create-home --shell /usr/sbin/nologin --comment "Elytra/Pterodactyl system user" pyrodactyl
 ```
 Red Hat derivatives keep `nologin` in `/usr/sbin`, so this mirrors the Fedora command exactly.
 </Tab>
 <Tab value="RHEL">
-```
+```bash
 sudo getent passwd pyrodactyl || sudo useradd --system --create-home --shell /usr/sbin/nologin --comment "Elytra/Pterodactyl system user" pyrodactyl
 ```
 If SELinux is enforcing, rerun `sudo restorecon /etc/passwd` after creating the user to ensure the context is correct.
 </Tab>
 <Tab value="Arch">
-```
+```bash
 sudo getent passwd pyrodactyl || sudo useradd --system --create-home --shell /usr/bin/nologin --comment "Elytra/Pterodactyl system user" pyrodactyl
 ```
-Arch places `nologin` in `/usr/bin`, so point the command there to keep `systemd` happy.
+Arch places `nologin` in `/usr/bin`, so point the command there to keep systemd happy.
 </Tab>
 </Tabs>

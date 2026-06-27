@@ -1,5 +1,5 @@
 import './global.css';
-import { RootProvider } from 'fumadocs-ui/provider';
+import { RootProvider } from 'fumadocs-ui/provider/next';
 import SearchDialog from '@/components/search';
 import { IBM_Plex_Mono, Inter } from 'next/font/google';
 import type { ReactNode } from 'react';

@@ -7,7 +7,7 @@ description: Guide for updating your native Pyrodactyl installation and resolvin
 
 Newest release version: 
 
-![Pyrodactyl Latest Release](https://img.shields.io/github/v/release/pyrodactyl-oss/pyrodactyl?style=for-the-badge)
+![Latest Release](https://shieldcn.dev/github/release/pyrodactyl-oss/pyrodactyl.svg?variant=branded)
 
 <Callout type="warn">
   Before proceeding with any updates, make sure to back up your database and panel files. Provided below is how you can make a backup of your Panel Database. (Replace ``panel`` with the database name you use)
@@ -30,99 +30,143 @@ mariadb-dump -u root -p --opt panel > ./panel.sql
 
 ### Update Steps
 
-1. Install a Node Version Manager:
+<Steps>
+<Step>
+### Install Node Version Manager
 
-   ```bash
-   curl -o- https://fnm.vercel.app/install | bash
-   ```
+```bash
+curl -o- https://fnm.vercel.app/install | bash
+```
 
-1. Install Node 22:
+</Step>
 
-   ```bash
-   fnm install 22
-   ```
+<Step>
+### Install Node 22
 
-1. Navigate to your Pyrodactyl installation directory:
+```bash
+fnm install 22
+```
 
-   ```bash
-   cd /path/to/your/pyrodactyl
-   ```
+</Step>
 
-1. Download the latest release:
+<Step>
+### Navigate to Pyrodactyl Directory
 
-   ```bash
-   curl -L https://github.com/pyrodactyl-oss/pyrodactyl/releases/latest/download/panel.tar.gz | tar -xzv
-   ```
+```bash
+cd /path/to/your/pyrodactyl
+```
 
-1. Enable maintenance mode:
+</Step>
 
-   ```bash
-   php artisan down
-   ```
+<Step>
+### Download Latest Release
 
-1. Set proper permissions:
+```bash
+curl -L https://github.com/pyrodactyl-oss/pyrodactyl/releases/latest/download/panel.tar.gz | tar -xzv
+```
 
-   ```bash
-   chmod -R 755 storage/* bootstrap/cache
-   ```
+</Step>
 
-1. Install PHP dependencies:
+<Step>
+### Enable Maintenance Mode
 
-   ```bash
-   composer install --no-dev --optimize-autoloader
-   ```
+```bash
+php artisan down
+```
 
-1. Clear application cache:
+</Step>
 
-   ```bash
-   php artisan view:clear
-   php artisan config:clear
-   ```
+<Step>
+### Set Proper Permissions
 
-1. Run database migrations:
+```bash
+chmod -R 755 storage/* bootstrap/cache
+```
 
-   ```bash
-   php artisan migrate --seed --force
-   ```
+</Step>
 
-1. Set ownership based on your web server:
+<Step>
+### Install PHP Dependencies
 
-   ```bash
-   # For NGINX (non-CentOS)
-   chown -R www-data:www-data /var/www/pterodactyl/*
+```bash
+composer install --no-dev --optimize-autoloader
+```
 
-   # For NGINX (CentOS)
-   chown -R nginx:nginx /var/www/pterodactyl/*
+</Step>
 
-   # For Apache (CentOS)
-   chown -R apache:apache /var/www/pterodactyl/*
-   ```
+<Step>
+### Clear Application Cache
 
-1. Restart the queue worker:
+```bash
+php artisan view:clear
+php artisan config:clear
+```
 
-   ```bash
-   php artisan queue:restart
-   ```
+</Step>
 
-1. Install and build frontend assets:
+<Step>
+### Run Database Migrations
 
-   ```bash
-   npm install -g corepack@latest
-   corepack enable pnpm
-   pnpm i --frozen-lockfile && pnpm run ship
-   ```
+```bash
+php artisan migrate --seed --force
+```
 
-1. Verify permissions:
+</Step>
 
-   ```bash
-   chmod -R 755 storage/* bootstrap/cache/
-   ```
+<Step>
+### Set Ownership
 
-1. Disable maintenance mode:
+```bash
+# For NGINX (non-CentOS)
+chown -R www-data:www-data /var/www/pterodactyl/*
 
-   ```bash
-   php artisan up
-   ```
+# For NGINX (CentOS)
+chown -R nginx:nginx /var/www/pterodactyl/*
+
+# For Apache (CentOS)
+chown -R apache:apache /var/www/pterodactyl/*
+```
+
+</Step>
+
+<Step>
+### Restart Queue Worker
+
+```bash
+php artisan queue:restart
+```
+
+</Step>
+
+<Step>
+### Build Frontend Assets
+
+```bash
+npm install -g corepack@latest
+corepack enable pnpm
+pnpm i --frozen-lockfile && pnpm run ship
+```
+
+</Step>
+
+<Step>
+### Verify Permissions
+
+```bash
+chmod -R 755 storage/* bootstrap/cache/
+```
+
+</Step>
+
+<Step>
+### Disable Maintenance Mode
+
+```bash
+php artisan up
+```
+
+</Step>
+</Steps>
 
 ### Troubleshooting Common Issues
 
@@ -130,19 +174,32 @@ mariadb-dump -u root -p --opt panel > ./panel.sql
 
 If you encounter hydration mismatch errors in the browser console, try these steps:
 
-1. Clear your browser cache and cookies
-1. Rebuild the frontend assets:
+<Steps>
+<Step>
+### Clear Browser Cache
 
-   ```bash
-   pnpm i --frozen-lockfile && pnpm run ship
-   ```
+Clear your browser cache and cookies.
+</Step>
 
-1. Clear the application cache:
+<Step>
+### Rebuild Frontend Assets
 
-   ```bash
-   php artisan view:clear
-   php artisan config:clear
-   ```
+```bash
+pnpm i --frozen-lockfile && pnpm run ship
+```
+
+</Step>
+
+<Step>
+### Clear Application Cache
+
+```bash
+php artisan view:clear
+php artisan config:clear
+```
+
+</Step>
+</Steps>
 
 <Callout type="info">
   Hydration mismatches often occur when the server-rendered content doesn't

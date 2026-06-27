@@ -10,6 +10,8 @@ description: Setup a local development environment using Docker
 
 This approach offers several advantages compared to [Vagrant](vagrant):
 
+<Icon name="docker" className="inline size-4 mr-1 text-blue-400" />
+
 - Faster boot and initial setup times
 - Easy viewing & resetting of server data
 - Lower resource consumption
@@ -34,47 +36,90 @@ This approach offers several advantages compared to [Vagrant](vagrant):
 
 ## Initial setup
 
-1. Clone the Pyrodactyl panel repository
+<Steps>
+<Step>
+### Clone Repository
 
-1. Install dependencies:
+Clone the Pyrodactyl panel repository.
+</Step>
 
-   ```bash
-   pnpm i
-   ```
+<Step>
+### Install Dependencies
 
-1. Build the project:
+```bash
+pnpm i
+```
 
-   ```bash
-   pnpm run ship
-   ```
+</Step>
 
-   - Caches build results
-   - Uploads sourcemaps to Sentry
-   - Makes subsequent builds without code changes nearly instant
+<Step>
+### Build the Project
 
-1. Initialize the Docker image: `pnpm build:docker:dev`
+```bash
+pnpm run ship
+```
 
-   - Installs PHP and system dependencies
-   - Configures the image for Pyrodactyl services
-   - This only needs to be done once unless PHP dependencies or the `Dockerfile` changes
+- Caches build results
+- Uploads sourcemaps to Sentry
+- Makes subsequent builds without code changes nearly instant
+</Step>
 
-1. Copy the `docker-compose.develop.yml` file to `docker-compose.yml`, and adjust it carefully if needed
+<Step>
+### Initialize Docker Image
 
-1. Move onto general usage
+```bash
+pnpm build:docker:dev
+```
+
+- Installs PHP and system dependencies
+- Configures the image for Pyrodactyl services
+- This only needs to be done once unless PHP dependencies or the `Dockerfile` changes
+</Step>
+
+<Step>
+### Configure Compose File
+
+Copy the `docker-compose.develop.yml` file to `docker-compose.yml`, and adjust it carefully if needed.
+</Step>
+
+<Step>
+### Move to General Usage
+
+Proceed to the general usage section below.
+</Step>
+</Steps>
 
 ## General usage
 
 Once you've completed the initial setup:
 
-1. Run `pnpm compose` to startup the environment. If this is your first time running this, it'll take a second to pull and configure everything
+<Steps>
+<Step>
+### Start the Environment
 
-1. Run `pnpm dev:docker` to start a local development server
+Run `pnpm compose` to startup the environment. If this is your first time running this, it'll take a second to pull and configure everything.
+</Step>
 
-   - For a production preview, run `pnpm run ship` and its build will be hosted by Docker
+<Step>
+### Start Dev Server
 
-1. Access Pyrodactyl from http://localhost:3000/, and login using the default credentials of `dev@pyro.host` and `dev`
+Run `pnpm dev:docker` to start a local development server.
 
-1. Once finished, you can stop Docker using `pnpm compose:down`
+- For a production preview, run `pnpm run ship` and its build will be hosted by Docker
+</Step>
+
+<Step>
+### Access Pyrodactyl
+
+Access Pyrodactyl from http://localhost:3000/, and login using the default credentials of `dev@pyro.host` and `dev`.
+</Step>
+
+<Step>
+### Stop Docker
+
+Once finished, you can stop Docker using `pnpm compose:down`.
+</Step>
+</Steps>
 
 ## Tips
 
@@ -100,15 +145,33 @@ Linked node: local
 
 To **irreversibly** reset your Docker data:
 
-1. Take the Docker compose down (`pnpm compose:down`)
+<Steps>
+<Step>
+### Take Compose Down
 
-1. Enter the following command in your terminal (`sudo` is only required on Linux):
+```bash
+pnpm compose:down
+```
 
-   ```bash
-   sudo rm -rf var vendor .env srv
-   ```
+</Step>
 
-1. Put the Docker compose back up again (`pnpm compose`) and server data should be recreated
+<Step>
+### Remove Server Data
+
+Enter the following command in your terminal (`sudo` is only required on Linux):
+
+```bash
+sudo rm -rf var vendor .env srv
+```
+
+</Step>
+
+<Step>
+### Restart Compose
+
+Put the Docker compose back up again (`pnpm compose`) and server data should be recreated.
+</Step>
+</Steps>
 
 ## Troubleshooting
 
@@ -118,9 +181,28 @@ Make sure you're not running into any [known limitations](#limitations).
 
 Firstly, try the below:
 
-1. Ensure your `docker-compose.yml` is correct. You should've copied the example `docker-compose.develop.yml` to this file
-1. [Reset your server data](#resetting-server-data) if your happy to do so
-1. Rebuild the Docker image (`pnpm build:docker:dev`)
+<Steps>
+<Step>
+### Check Compose File
+
+Ensure your `docker-compose.yml` is correct. You should've copied the example `docker-compose.develop.yml` to this file.
+</Step>
+
+<Step>
+### Reset Server Data
+
+[Reset your server data](#resetting-server-data) if you're happy to do so.
+</Step>
+
+<Step>
+### Rebuild Docker Image
+
+```bash
+pnpm build:docker:dev
+```
+
+</Step>
+</Steps>
 
 If nothing above works, collect any errors from the following to aid in troubleshooting:
 

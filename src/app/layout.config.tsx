@@ -5,7 +5,7 @@ import { BookOpenIcon } from '@heroicons/react/24/solid';
  * Shared layout configurations
  */
 export const baseOptions: BaseLayoutProps = {
-  disableThemeSwitch: true,
+  themeSwitch: { enabled: false },
   nav: {
     title: (
       <div className="flex items-center gap-2">

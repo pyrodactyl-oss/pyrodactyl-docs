@@ -3,9 +3,9 @@ title: Fresh Installation
 description: A comprehensive guide for setting up Pyrodactyl using Docker
 ---
 
-This comprehensive guide walks you through setting up Pyrodactyl using Docker, from scratch to a fully functional system.
+<Callout type="info">This comprehensive guide walks you through setting up Pyrodactyl using Docker, from scratch to a fully functional system.</Callout>
 
-<Callout type="note">
+<Callout type="info">
   The guide for migration has moved to a [new page](/docs/migrations).
 </Callout>
 
@@ -28,40 +28,84 @@ This comprehensive guide walks you through setting up Pyrodactyl using Docker, f
 
 ## Panel Installation
 
-1. Download and configure the docker-compose file [(template)](https://raw.githubusercontent.com/pyrodactyl-oss/pyrodactyl/main/docker-compose.example.yml).
+<Steps>
+<Step>
+### Download & Configure Compose File
 
-   - Modify all placeholder variables under `x-common`
-   - Adjust exposed ports if needed (add 443 if you want to use HTTPS)
+Download and configure the docker-compose file [(template)](https://raw.githubusercontent.com/pyrodactyl-oss/pyrodactyl/main/docker-compose.example.yml).
 
-1. Create a new folder (e.g. pyrodactyl-panel) on your server in a safe location, and move or upload your edited compose file into it. Rename the file to docker-compose.yml.
+- Modify all placeholder variables under `x-common`
+- Adjust exposed ports if needed (add 443 if you want to use HTTPS)
+</Step>
 
-1. In terminal, cd into the directory, and run the following command to start the panel:
+<Step>
+### Create Project Directory
 
-   ```bash
-   docker compose up -d
-   ```
+Create a new folder (e.g. `pyrodactyl-panel`) on your server in a safe location, and move or upload your edited compose file into it. Rename the file to `docker-compose.yml`.
+</Step>
 
-1. Run the command below, and go through its prompts to create an admin user:
+<Step>
+### Start the Panel
 
-   ```bash
-   docker compose exec panel php artisan p:user:make
-   ```
+In terminal, cd into the directory, and run the following command to start the panel:
 
-1. Check that the panel is accessible using the IP address or domain of your server.
+```bash
+docker compose up -d
+```
+
+</Step>
+
+<Step>
+### Create Admin User
+
+Run the command below, and go through its prompts to create an admin user:
+
+```bash
+docker compose exec panel php artisan p:user:make
+```
+
+</Step>
+
+<Step>
+### Verify Accessibility
+
+Check that the panel is accessible using the IP address or domain of your server.
+</Step>
+</Steps>
 
 ## Panel Configuration
 
-1. Access the panel via your server's IP/domain and login to your previously created user
-1. Navigate to admin panel (three dots menu → Admin)
-1. Navigate to Locations, make a new location. It can have any name
-1. Navigate to Nodes, create a new node
+<Steps>
+<Step>
+### Log In
 
-   - FQDN is the domain or IP address (if you're not using HTTPS) of the server you're going to use as a backend
-   - You should make sure the daemon ports are free on your backend server
+Access the panel via your server's IP/domain and login to your previously created user.
+</Step>
 
-1. On the new node, go to the:
-   - Configuration tab: Copy the contents to /etc/elytra/config.yml on your backend server
-   - Allocation tab: Add some allocations to use for your servers. The IP should be 0.0.0.0. If you want to show a different IP in the UI (e.g. a subdomain), add an alias. You can input a range of ports like 25565-26000
+<Step>
+### Create a Location
+
+Navigate to admin panel (three dots menu → Admin), then go to **Locations** and make a new location. It can have any name.
+</Step>
+
+<Step>
+### Create a Node
+
+Navigate to **Nodes** and create a new node.
+
+- FQDN is the domain or IP address (if you're not using HTTPS) of the server you're going to use as a backend
+- You should make sure the daemon ports are free on your backend server
+</Step>
+
+<Step>
+### Configure the Node
+
+On the new node, go to the:
+
+- **Configuration tab**: Copy the contents to `/etc/elytra/config.yml` on your backend server
+- **Allocation tab**: Add some allocations to use for your servers. The IP should be `0.0.0.0`. If you want to show a different IP in the UI (e.g. a subdomain), add an alias. You can input a range of ports like `25565-26000`
+</Step>
+</Steps>
 
 ## Elytra Installation
 
@@ -96,9 +140,25 @@ The goal is to not have your server's IP address on any of your known domains.
 
 If issues arise:
 
-1. Test with vanilla Pterodactyl by changing panel image to `ghcr.io/pterodactyl/panel:latest`
-1. Debug issues
-1. Switch back to Pyrodactyl image when resolved
+<Steps>
+<Step>
+### Test with Vanilla Pterodactyl
+
+Change panel image to `ghcr.io/pterodactyl/panel:latest`
+</Step>
+
+<Step>
+### Debug Issues
+
+Identify and resolve the problem.
+</Step>
+
+<Step>
+### Switch Back
+
+Switch back to Pyrodactyl image when resolved.
+</Step>
+</Steps>
 
 ## Additional Resources
 

@@ -17,11 +17,11 @@ export const source = loader({
     }
     switch (icon) {
       case 'pyrodactyl':
-        return PyrodactylLogo();
+        return createElement(PyrodactylLogo);
       case 'blueprint':
-        return BlueprintLogo();
+        return createElement(BlueprintLogo);
       case 'elytra':
-        return ElytraLogo()
+        return createElement(ElytraLogo)
     }
 
     if (icon in icons) return createElement(icons[icon as keyof typeof icons]);
